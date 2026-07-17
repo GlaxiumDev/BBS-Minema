@@ -1,0 +1,472 @@
+[05:55:25] [main/INFO] (FabricLoader/GameProvider) Loading Minecraft 1.20.4 with Fabric Loader 0.15.0
+[05:55:25] [main/INFO] (FabricLoader) Loading 57 mods:
+	- bbs 1.7.7-1.20.4
+	- bbs_minema 0.1.0-1.20.4
+	- fabric-api 0.91.1+1.20.4
+	- fabric-api-base 0.4.34+f31bf88132
+	- fabric-api-lookup-api-v1 1.6.44+9468a19d32
+	- fabric-biome-api-v1 13.0.14+9468a19d32
+	- fabric-block-api-v1 1.0.13+73761d2e32
+	- fabric-block-view-api-v2 1.0.2+73761d2e32
+	- fabric-blockrenderlayer-v1 1.1.44+f4b7e42432
+	- fabric-client-tags-api-v1 1.1.5+86b1264532
+	- fabric-command-api-v1 1.2.39+f71b366f32
+	- fabric-command-api-v2 2.2.18+23e8616e32
+	- fabric-commands-v0 0.2.56+df3654b332
+	- fabric-containers-v0 0.1.80+df3654b332
+	- fabric-content-registries-v0 5.0.8+9468a19d32
+	- fabric-convention-tags-v1 1.5.8+9468a19d32
+	- fabric-crash-report-info-v1 0.2.21+f4b7e42432
+	- fabric-data-generation-api-v1 13.1.16+1b2a41bc32
+	- fabric-dimensions-v1 2.1.59+a2e8758a32
+	- fabric-entity-events-v1 1.5.26+9468a19d32
+	- fabric-events-interaction-v0 0.6.13+9468a19d32
+	- fabric-events-lifecycle-v0 0.2.70+df3654b332
+	- fabric-game-rule-api-v1 1.0.44+6f7ba8f232
+	- fabric-gametest-api-v1 1.2.18+9468a19d32
+	- fabric-item-api-v1 2.1.33+9468a19d32
+	- fabric-item-group-api-v1 4.0.19+f6e85ac232
+	- fabric-key-binding-api-v1 1.0.39+f4b7e42432
+	- fabric-keybindings-v0 0.2.37+df3654b332
+	- fabric-lifecycle-events-v1 2.2.28+9468a19d32
+	- fabric-loot-api-v2 2.1.3+6f9f09e032
+	- fabric-message-api-v1 6.0.3+ebb1549632
+	- fabric-mining-level-api-v1 2.1.58+f4b7e42432
+	- fabric-model-loading-api-v1 1.0.6+9468a19d32
+	- fabric-models-v0 0.4.5+9386d8a732
+	- fabric-networking-api-v1 3.1.1+901470e432
+	- fabric-object-builder-api-v1 13.0.6+a2e8758a32
+	- fabric-particles-v1 1.1.5+f4b7e42432
+	- fabric-recipe-api-v1 2.0.14+23e8616e32
+	- fabric-registry-sync-v0 4.0.12+9468a19d32
+	- fabric-renderer-api-v1 3.2.2+2034447c32
+	- fabric-renderer-indigo 1.5.2+2034447c32
+	- fabric-renderer-registries-v1 3.2.49+df3654b332
+	- fabric-rendering-data-attachment-v1 0.3.40+73761d2e32
+	- fabric-rendering-fluids-v1 3.0.31+f4b7e42432
+	- fabric-rendering-v0 1.1.52+df3654b332
+	- fabric-rendering-v1 3.0.11+9468a19d32
+	- fabric-resource-conditions-api-v1 2.3.12+de5c6cca32
+	- fabric-resource-loader-v0 0.11.14+f31bf88132
+	- fabric-screen-api-v1 2.0.15+f6e85ac232
+	- fabric-screen-handler-api-v1 1.3.49+9468a19d32
+	- fabric-sound-api-v1 1.0.15+f4b7e42432
+	- fabric-transfer-api-v1 4.0.5+aaf9c96932
+	- fabric-transitive-access-wideners-v1 5.0.12+1b2a41bc32
+	- fabricloader 0.15.0
+	- java 21
+	- minecraft 1.20.4
+	- mixinextras 0.3.0
+[05:55:25] [main/INFO] (FabricLoader/Mixin) SpongePowered MIXIN Subsystem Version=0.8.5 Source=file:/home/glaxium/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.12.5+mixin.0.8.5/8d31fb97c3e0cd7c8dad3441851c523bcfae6d8e/sponge-mixin-0.12.5+mixin.0.8.5.jar Service=Knot/Fabric Env=CLIENT
+[05:55:25] [main/INFO] (FabricLoader/Mixin) Loaded Fabric development mappings for mixin remapper!
+[05:55:25] [main/INFO] (FabricLoader/Mixin) Compatibility level set to JAVA_16
+[05:55:25] [main/INFO] (FabricLoader/Mixin) Compatibility level set to JAVA_17
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: net/irisshaders/iris/uniforms/SystemTimeUniforms$Timer (java.lang.ClassNotFoundException: net/irisshaders/iris/uniforms/SystemTimeUniforms$Timer)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target net.irisshaders.iris.uniforms.SystemTimeUniforms$Timer was not found bbs.client.mixins.json:iris.SystemTimeUniformsTimerMixin from mod bbs
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: me/jellysquid/mods/sodium/client/render/vertex/buffer/SodiumBufferBuilder (java.lang.ClassNotFoundException: me/jellysquid/mods/sodium/client/render/vertex/buffer/SodiumBufferBuilder)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target me.jellysquid.mods.sodium.client.render.vertex.buffer.SodiumBufferBuilder was not found bbs.client.mixins.json:sodium.SodiumBufferBuilderAccessor from mod bbs
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: net/caffeinemc/mods/sodium/api/vertex/attributes/common/ColorAttribute (java.lang.ClassNotFoundException: net/caffeinemc/mods/sodium/api/vertex/attributes/common/ColorAttribute)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target net.caffeinemc.mods.sodium.api.vertex.attributes.common.ColorAttribute was not found bbs.client.mixins.json:sodium.ColorAttributeMixin from mod bbs
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: net/irisshaders/iris/compat/sodium/impl/vertex_format/entity_xhfp/EntityVertex (java.lang.ClassNotFoundException: net/irisshaders/iris/compat/sodium/impl/vertex_format/entity_xhfp/EntityVertex)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target net.irisshaders.iris.compat.sodium.impl.vertex_format.entity_xhfp.EntityVertex was not found bbs.client.mixins.json:iris.EntityVertexMixin from mod bbs
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: net/irisshaders/iris/pipeline/IrisRenderingPipeline (java.lang.ClassNotFoundException: net/irisshaders/iris/pipeline/IrisRenderingPipeline)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target net.irisshaders.iris.pipeline.IrisRenderingPipeline was not found bbs.client.mixins.json:iris.IrisRenderingPipelineAccessor from mod bbs
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: net/irisshaders/iris/uniforms/custom/CustomUniforms$Builder (java.lang.ClassNotFoundException: net/irisshaders/iris/uniforms/custom/CustomUniforms$Builder)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target net.irisshaders.iris.uniforms.custom.CustomUniforms$Builder was not found bbs.client.mixins.json:iris.CustomUniformsBuilderMixin from mod bbs
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: net/irisshaders/iris/uniforms/custom/CustomUniforms (java.lang.ClassNotFoundException: net/irisshaders/iris/uniforms/custom/CustomUniforms)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target net.irisshaders.iris.uniforms.custom.CustomUniforms was not found bbs.client.mixins.json:iris.CustomUniformsAccessor from mod bbs
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: net/irisshaders/iris/shaderpack/preprocessor/JcppProcessor (java.lang.ClassNotFoundException: net/irisshaders/iris/shaderpack/preprocessor/JcppProcessor)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target net.irisshaders.iris.shaderpack.preprocessor.JcppProcessor was not found bbs.client.mixins.json:iris.JcppProcessorMixin from mod bbs
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: net/irisshaders/iris/shaderpack/ShaderPack (java.lang.ClassNotFoundException: net/irisshaders/iris/shaderpack/ShaderPack)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target net.irisshaders.iris.shaderpack.ShaderPack was not found bbs.client.mixins.json:iris.ShaderPackMixin from mod bbs
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: net/irisshaders/iris/Iris (java.lang.ClassNotFoundException: net/irisshaders/iris/Iris)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target net.irisshaders.iris.Iris was not found bbs.client.mixins.json:iris.IrisMixin from mod bbs
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: net/irisshaders/iris/gui/element/widget/SliderElementWidget (java.lang.ClassNotFoundException: net/irisshaders/iris/gui/element/widget/SliderElementWidget)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target net.irisshaders.iris.gui.element.widget.SliderElementWidget was not found bbs.client.mixins.json:iris.SliderElementWidgetMixin from mod bbs
+[05:55:25] [main/WARN] (FabricLoader/Mixin) Error loading class: net/irisshaders/iris/gui/element/widget/StringElementWidget (java.lang.ClassNotFoundException: net/irisshaders/iris/gui/element/widget/StringElementWidget)
+[05:55:25] [main/WARN] (FabricLoader/Mixin) @Mixin target net.irisshaders.iris.gui.element.widget.StringElementWidget was not found bbs.client.mixins.json:iris.StringElementWidgetInvoker from mod bbs
+[05:55:25] [main/INFO] (FabricLoader/MixinExtras|Service) Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.3.0).
+[05:55:28] [Datafixer Bootstrap/INFO] (Minecraft) 198 Datafixer optimizations took 54 milliseconds
+[05:55:28] [Render thread/INFO] (Minecraft) Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[05:55:29] [Render thread/INFO] (Minecraft) Setting user: Player989
+[05:55:29] [Render thread/INFO] (fabric-networking-api-v1) Force Packet Serialization is enabled to mimic remote connection on single player, this is the default behaviour on dev env. Add -Dfabric-api.networking.force-packet-serialization=false JVM arg to disable it.
+[05:55:29] [Render thread/INFO] (Indigo) [Indigo] Registering Indigo renderer!
+[05:55:29] [Render thread/INFO] (Minecraft) [STDOUT]: Loading language file "assets:strings/en_us.json".
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: /home/glaxium/Documents/BBS Minema/run/config/bbs/settings/categories.json (No such file or directory)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.open0(Native Method)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:152)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.utils.IOUtils.readText(IOUtils.java:27)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.data.DataToString.read(DataToString.java:184)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.forms.VisibilityManager.read(VisibilityManager.java:54)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.forms.FormCategories.setup(FormCategories.java:44)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.BBSResources.init(BBSResources.java:16)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.BBSModClient.onInitializeClient(BBSModClient.java:342)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.FabricLoaderImpl.invokeEntrypoints(FabricLoaderImpl.java:384)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.game.minecraft.Hooks.startClient(Hooks.java:53)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.MinecraftClient.<init>(MinecraftClient.java:487)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.main.Main.main(Main.java:223)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.game.minecraft.MinecraftGameProvider.launch(MinecraftGameProvider.java:470)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.launch.knot.Knot.launch(Knot.java:74)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.launch.knot.KnotClient.main(KnotClient.java:23)
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.devlaunchinjector.Main.main(Main.java:86)
+[05:55:29] [Render thread/INFO] (Minecraft) Backend library: LWJGL version 3.3.2-snapshot
+[05:55:29] [Render thread/INFO] (Minecraft) [STDERR]: [LWJGL] [ThreadLocalUtil] Unsupported JNI version detected, this may result in a crash. Please inform LWJGL developers.
+[05:55:30] [Download-2/ERROR] (Minecraft) Failed to fetch user properties
+com.mojang.authlib.exceptions.InvalidCredentialsException: Status: 401
+	at com.mojang.authlib.exceptions.MinecraftClientHttpException.toAuthenticationException(MinecraftClientHttpException.java:59) ~[authlib-6.0.52.jar:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilUserApiService.fetchProperties(YggdrasilUserApiService.java:150) ~[authlib-6.0.52.jar:?]
+	at net.minecraft.client.MinecraftClient.method_55608(MinecraftClient.java:467) ~[minecraft-merged-7fce1b261c-1.20.4-net.fabricmc.yarn.1_20_4.1.20.4+build.1-v2.jar:?]
+	at java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768) ~[?:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144) ~[?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[?:?]
+	at java.lang.Thread.run(Thread.java:1583) ~[?:?]
+Caused by: com.mojang.authlib.exceptions.MinecraftClientHttpException: Status: 401
+	at com.mojang.authlib.minecraft.client.MinecraftClient.readInputStream(MinecraftClient.java:100) ~[authlib-6.0.52.jar:?]
+	at com.mojang.authlib.minecraft.client.MinecraftClient.get(MinecraftClient.java:57) ~[authlib-6.0.52.jar:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilUserApiService.fetchProperties(YggdrasilUserApiService.java:121) ~[authlib-6.0.52.jar:?]
+	... 5 more
+[05:55:30] [Render thread/INFO] (Minecraft) Reloading ResourceManager: vanilla, fabric (fabric-events-lifecycle-v0, fabric-transfer-api-v1, fabric-api-lookup-api-v1, fabric-sound-api-v1, fabric-events-interaction-v0, fabric-lifecycle-events-v1, fabric-commands-v0, fabric-keybindings-v0, fabric-rendering-v0, fabric-command-api-v1, fabric-block-api-v1, fabric-renderer-indigo, fabric-resource-conditions-api-v1, fabric-content-registries-v0, fabric-rendering-data-attachment-v1, fabric-rendering-fluids-v1, fabric-item-group-api-v1, fabric-transitive-access-wideners-v1, fabric-screen-api-v1, fabric-key-binding-api-v1, fabric-models-v0, fabric-game-rule-api-v1, fabric-model-loading-api-v1, fabric-convention-tags-v1, fabric-message-api-v1, fabric-block-view-api-v2, fabric-resource-loader-v0, fabric-api-base, fabric-screen-handler-api-v1, fabric-blockrenderlayer-v1, fabric-data-generation-api-v1, fabric-renderer-api-v1, fabric-recipe-api-v1, fabric-gametest-api-v1, fabric-rendering-v1, fabric-biome-api-v1, fabric-containers-v0, fabric-mining-level-api-v1, fabric-loot-api-v2, fabric-item-api-v1, fabric-command-api-v2, fabric-entity-events-v1, fabric-crash-report-info-v1, fabric-particles-v1, bbs, fabricloader, fabric-networking-api-v1, bbs_minema, fabric-object-builder-api-v1, fabric-registry-sync-v0, fabric-api, fabric-dimensions-v1, fabric-client-tags-api-v1, fabric-renderer-registries-v1)
+[05:55:30] [Worker-Main-2/INFO] (Minecraft) Found unifont_all_no_pua-15.1.04.hex, loading
+[05:55:31] [Render thread/WARN] (Minecraft) Skipped language file: bbs_minema:lang/en_us.json (java.lang.NullPointerException: Cannot invoke "com.google.gson.JsonObject.entrySet()" because "jsonObject" is null)
+[05:55:31] [Render thread/INFO] (Minecraft) [STDOUT]: Loading language file "assets:strings/en_us.json".
+[05:55:31] [Render thread/WARN] (Minecraft) Missing sound for event: minecraft:item.goat_horn.play
+[05:55:31] [Render thread/WARN] (Minecraft) Missing sound for event: minecraft:entity.goat.screaming.horn_break
+[05:55:31] [Render thread/WARN] (Minecraft) Missing sound for event: minecraft:entity.generic.wind_burst
+[05:55:31] [Render thread/INFO] (Minecraft) OpenAL initialized on device Redragon Gaming Headset Analog Stereo
+[05:55:31] [Render thread/INFO] (Minecraft) Sound engine started
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 256x256x4 minecraft:textures/atlas/signs.png-atlas
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 1024x1024x4 minecraft:textures/atlas/armor_trims.png-atlas
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 128x64x4 minecraft:textures/atlas/decorated_pot.png-atlas
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[05:55:31] [Render thread/WARN] (Minecraft) Shader rendertype_entity_translucent_emissive could not find sampler named Sampler2 in the specified shader program.
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 512x256x0 minecraft:textures/atlas/particles.png-atlas
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[05:55:31] [Render thread/INFO] (Minecraft) Created: 1024x512x0 minecraft:textures/atlas/gui.png-atlas
+[05:55:40] [IO-Worker-1/INFO] (Minecraft) Could not authorize you against Realms server: java.lang.RuntimeException: Failed to parse into SignedJWT: FabricMC
+[05:55:40] [IO-Worker-1/ERROR] (Minecraft) Couldn't connect to realms
+net.minecraft.client.realms.exception.RealmsServiceException: Realms authentication error with message 'java.lang.RuntimeException: Failed to parse into SignedJWT: FabricMC'
+	at net.minecraft.client.realms.RealmsClient.execute(RealmsClient.java:447) ~[minecraft-merged-7fce1b261c-1.20.4-net.fabricmc.yarn.1_20_4.1.20.4+build.1-v2.jar:?]
+	at net.minecraft.client.realms.RealmsClient.clientCompatible(RealmsClient.java:232) ~[minecraft-merged-7fce1b261c-1.20.4-net.fabricmc.yarn.1_20_4.1.20.4+build.1-v2.jar:?]
+	at net.minecraft.client.realms.RealmsAvailability.method_52627(RealmsAvailability.java:45) ~[minecraft-merged-7fce1b261c-1.20.4-net.fabricmc.yarn.1_20_4.1.20.4+build.1-v2.jar:?]
+	at java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768) ~[?:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144) ~[?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[?:?]
+	at java.lang.Thread.run(Thread.java:1583) ~[?:?]
+[05:55:50] [Render thread/INFO] (Minecraft) Loaded 7 recipes
+[05:55:50] [Render thread/INFO] (Minecraft) Loaded 1271 advancements
+[05:55:59] [Render thread/INFO] (Minecraft) Loaded 7 recipes
+[05:55:59] [Render thread/INFO] (Minecraft) Loaded 1271 advancements
+[05:56:04] [Render thread/INFO] (BiomeModificationImpl) Applied 0 biome modifications to 0 of 64 new biomes in 749.0 μs
+[05:56:04] [Server thread/INFO] (Minecraft) Starting integrated minecraft server version 1.20.4
+[05:56:04] [Server thread/INFO] (Minecraft) Generating keypair
+[05:56:05] [Server thread/INFO] (Minecraft) Preparing start region for dimension minecraft:overworld
+[05:56:05] [Render thread/INFO] (Minecraft) Preparing spawn area: 0%
+[05:56:05] [Render thread/INFO] (Minecraft) Preparing spawn area: 9%
+[05:56:06] [Render thread/INFO] (Minecraft) Time elapsed: 938 ms
+[05:56:06] [Server thread/INFO] (Minecraft) Changing view distance to 12, from 10
+[05:56:06] [Server thread/INFO] (Minecraft) Changing simulation distance to 12, from 0
+[05:56:06] [Server thread/INFO] (Minecraft) Player989[local:E:9bc2acb4] logged in with entity id 1 at (-5.5, -60.0, -0.5)
+[05:56:06] [Server thread/INFO] (Minecraft) Player989 joined the game
+[05:56:06] [Render thread/INFO] (Minecraft) Loaded 2 advancements
+[05:56:08] [Server thread/INFO] (Minecraft) Saving and pausing game...
+[05:56:08] [Server thread/INFO] (Minecraft) Saving chunks for level 'ServerLevel[New World]'/minecraft:overworld
+[05:56:08] [Server thread/INFO] (Minecraft) Saving chunks for level 'ServerLevel[New World]'/minecraft:the_nether
+[05:56:08] [Server thread/INFO] (Minecraft) Saving chunks for level 'ServerLevel[New World]'/minecraft:the_end
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: java.lang.NullPointerException: Cannot read field "source" because "link" is null
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:44)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.graphics.texture.TextureManager.getPixels(TextureManager.java:169)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.graphics.texture.TextureManager.getTexture(TextureManager.java:196)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.graphics.texture.TextureManager.getTexture(TextureManager.java:185)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.graphics.texture.TextureManager.getTexture(TextureManager.java:180)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.input.UITexturePicker.updateOptions(UITexturePicker.java:607)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.input.UITexturePicker.displayCurrent(UITexturePicker.java:568)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.input.UITexturePicker.setMulti(UITexturePicker.java:675)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.input.UITexturePicker.fill(UITexturePicker.java:491)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.input.UITexturePicker.<init>(UITexturePicker.java:298)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.dashboard.textures.UITextureManagerPanel.<init>(UITextureManagerPanel.java:69)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.dashboard.UIDashboard.registerPanels(UIDashboard.java:247)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.dashboard.UIDashboard.<init>(UIDashboard.java:91)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.BBSModClient.getDashboard(BBSModClient.java:207)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.BBSModClient.lambda$onInitializeClient$12(BBSModClient.java:523)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.lambda$static$2(ClientTickEvents.java:43)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.MinecraftClient.handler$zbk000$fabric-lifecycle-events-v1$onEndTick(MinecraftClient.java:3777)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.MinecraftClient.tick(MinecraftClient.java:2067)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.MinecraftClient.render(MinecraftClient.java:1289)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.MinecraftClient.run(MinecraftClient.java:888)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.main.Main.main(Main.java:265)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.game.minecraft.MinecraftGameProvider.launch(MinecraftGameProvider.java:470)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.launch.knot.Knot.launch(Knot.java:74)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.launch.knot.KnotClient.main(KnotClient.java:23)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.devlaunchinjector.Main.main(Main.java:86)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:textures/icons.png" was loaded!
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:textures/anchor.png" was loaded!
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:textures/error.png" was loaded!
+[05:56:11] [Render thread/WARN] (Minecraft) Shader picker_billboard could not find sampler named Sampler2 in the specified shader program.
+[05:56:11] [Render thread/WARN] (Minecraft) Shader picker_billboard could not find uniform named IViewRotMat in the specified shader program.
+[05:56:11] [Render thread/WARN] (Minecraft) Shader picker_billboard_no_shading could not find sampler named Sampler2 in the specified shader program.
+[05:56:11] [Render thread/WARN] (Minecraft) Shader picker_billboard_no_shading could not find uniform named IViewRotMat in the specified shader program.
+[05:56:11] [Render thread/WARN] (Minecraft) Shader picker_particles could not find uniform named ColorModulator in the specified shader program.
+[05:56:11] [Render thread/WARN] (Minecraft) Shader picker_models could not find sampler named Sampler2 in the specified shader program.
+[05:56:11] [Render thread/WARN] (Minecraft) Shader picker_models could not find uniform named IViewRotMat in the specified shader program.
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "minecraft:textures/particle/flame.png" was loaded!
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:textures/default_trail.png" was loaded!
+[05:56:11] [Server thread/INFO] (Minecraft) Saving and pausing game...
+[05:56:11] [Server thread/INFO] (Minecraft) Saving chunks for level 'ServerLevel[New World]'/minecraft:overworld
+[05:56:11] [Server thread/INFO] (Minecraft) Saving chunks for level 'ServerLevel[New World]'/minecraft:the_nether
+[05:56:11] [Server thread/INFO] (Minecraft) Saving chunks for level 'ServerLevel[New World]'/minecraft:the_end
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "emoticons/alex" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "emoticons/alex_simple" was loaded!
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:models/player/alex/alex.png" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "emoticons/steve" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "emoticons/steve_simple" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/alex/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:models/player/steve/steve.png" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/alex" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/alex_3d/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/alex_3d" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/alex_bends/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/alex_bends" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/alex_bends_3d/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:models/player/alex_3d/alex.png" was loaded!
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:models/player/alex_bends/alex.png" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/alex_bends_3d" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/eyes/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/eyes" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/eyes_1px/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/eyes_1px" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/eyes_31/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/eyes_31" was loaded!
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:models/player/alex_bends_3d/alex.png" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/eyes_31_1px/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:models/player/eyes/alex.png" was loaded!
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:models/player/eyes_1px/alex.png" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/eyes_31_1px" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/steve/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/steve" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/steve_3d/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/steve_3d" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/steve_bends/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:models/player/steve_3d/steve.png" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/steve_bends" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: Asset assets:models/player/steve_bends_3d/model.bobj couldn't be found!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.resources.AssetProvider.getAsset(AssetProvider.java:54)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.loaders.BOBJModelLoader.load(BOBJModelLoader.java:41)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelManager.loadModel(ModelManager.java:116)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.cubic.model.ModelLoader.run(ModelLoader.java:37)
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:models/player/steve_bends/steve.png" was loaded!
+[05:56:11] [BBS model loader/INFO] (Minecraft) [STDOUT]: Model "player/steve_bends_3d" was loaded!
+[05:56:11] [Render thread/INFO] (Minecraft) [STDOUT]: Texture "assets:models/player/steve_bends_3d/steve.png" was loaded!
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: /home/glaxium/Documents/BBS Minema/run/saves/New World/./bbs/films/1.dat (No such file or directory)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.open0(Native Method)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:152)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.data.storage.DataFileStorage.getInputStream(DataFileStorage.java:27)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.data.storage.DataGzipStorage.getInputStream(DataGzipStorage.java:21)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.data.storage.DataStorage.read(DataStorage.java:70)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.utils.manager.storage.CompressedDataStorage.load(CompressedDataStorage.java:15)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.utils.manager.BaseManager.load(BaseManager.java:48)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.network.ServerNetwork.lambda$handleActionControl$22(ServerNetwork.java:373)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.ServerTask.run(ServerTask.java:18)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ThreadExecutor.executeTask(ThreadExecutor.java:156)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ReentrantThreadExecutor.executeTask(ReentrantThreadExecutor.java:23)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.executeTask(MinecraftServer.java:797)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.executeTask(MinecraftServer.java:165)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ThreadExecutor.runTask(ThreadExecutor.java:130)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runOneTask(MinecraftServer.java:779)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runTask(MinecraftServer.java:773)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ThreadExecutor.runTasks(ThreadExecutor.java:115)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runTasksTillTickEnd(MinecraftServer.java:757)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:687)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.method_29739(MinecraftServer.java:270)
+[05:56:13] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:42] [Render thread/INFO] (Minecraft) [STDOUT]: Recording video with following arguments: [ffmpeg, -f, rawvideo, -pix_fmt, bgr24, -s, 1280x720, -r, 60.0, -i, -, -vf, vflip, -c:v, libx264, -preset, ultrafast, -tune, zerolatency, -qp, 18, -pix_fmt, yuv420p, 2026-07-17_05-56-42.mp4]
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: /home/glaxium/Documents/BBS Minema/run/saves/New World/./bbs/films/1.dat (No such file or directory)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.open0(Native Method)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:152)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.data.storage.DataFileStorage.getInputStream(DataFileStorage.java:27)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.data.storage.DataGzipStorage.getInputStream(DataGzipStorage.java:21)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.data.storage.DataStorage.read(DataStorage.java:70)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.utils.manager.storage.CompressedDataStorage.load(CompressedDataStorage.java:15)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.utils.manager.BaseManager.load(BaseManager.java:48)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.network.ServerNetwork.lambda$handleActionControl$22(ServerNetwork.java:373)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.ServerTask.run(ServerTask.java:18)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ThreadExecutor.executeTask(ThreadExecutor.java:156)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ReentrantThreadExecutor.executeTask(ReentrantThreadExecutor.java:23)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.executeTask(MinecraftServer.java:797)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.executeTask(MinecraftServer.java:165)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ThreadExecutor.runTask(ThreadExecutor.java:130)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runOneTask(MinecraftServer.java:779)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runTask(MinecraftServer.java:773)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ThreadExecutor.runTasks(ThreadExecutor.java:139)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runTasksTillTickEnd(MinecraftServer.java:758)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:687)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.method_29739(MinecraftServer.java:270)
+[05:56:42] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:42] [Render thread/INFO] (Minecraft) [STDOUT]: [bbs-minema] Recording depth pass with: [ffmpeg, -f, rawvideo, -pix_fmt, rgb24, -s, 1280x720, -r, 60.0, -i, -, -vf, vflip, -an, -c:v, libx264, -preset, medium, -qp, 10, -pix_fmt, yuv420p, 2026-07-17_05-56-42_depth.mp4]
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: java.io.FileNotFoundException: /home/glaxium/Documents/BBS Minema/run/saves/New World/./bbs/films/1.dat (No such file or directory)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.open0(Native Method)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:152)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.data.storage.DataFileStorage.getInputStream(DataFileStorage.java:27)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.data.storage.DataGzipStorage.getInputStream(DataGzipStorage.java:21)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.data.storage.DataStorage.read(DataStorage.java:70)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.utils.manager.storage.CompressedDataStorage.load(CompressedDataStorage.java:15)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.utils.manager.BaseManager.load(BaseManager.java:48)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.network.ServerNetwork.lambda$handleActionControl$22(ServerNetwork.java:373)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.ServerTask.run(ServerTask.java:18)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ThreadExecutor.executeTask(ThreadExecutor.java:156)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ReentrantThreadExecutor.executeTask(ReentrantThreadExecutor.java:23)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.executeTask(MinecraftServer.java:797)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.executeTask(MinecraftServer.java:165)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ThreadExecutor.runTask(ThreadExecutor.java:130)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runOneTask(MinecraftServer.java:779)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runTask(MinecraftServer.java:773)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ThreadExecutor.runTasks(ThreadExecutor.java:115)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runTasksTillTickEnd(MinecraftServer.java:757)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:687)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.server.MinecraftServer.method_29739(MinecraftServer.java:270)
+[05:56:44] [Server thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Thread.run(Thread.java:1583)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: java.io.IOException: Cannot run program "kde-open": Exec failed, error: 2 (No such file or directory) 
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1170)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1089)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Runtime.exec(Runtime.java:681)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Runtime.exec(Runtime.java:530)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.utils.UIUtils.runSysCommand(UIUtils.java:68)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.utils.UIUtils.openFolder(UIUtils.java:52)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.film.UIFilmRecorder.openMovies(UIFilmRecorder.java:67)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.film.UIFilmPreview.lambda$new$21(UIFilmPreview.java:197)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.context.UISimpleContextMenu.subMouseReleased(UISimpleContextMenu.java:53)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.UIElement.mouseReleased(UIElement.java:1158)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.UIElement.childrenMouseReleased(UIElement.java:1237)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.UIElement.mouseReleased(UIElement.java:1151)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.UIElement.childrenMouseReleased(UIElement.java:1237)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.UIElement.mouseReleased(UIElement.java:1151)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.UIBaseMenu.mouseReleased(UIBaseMenu.java:155)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.UIScreen.mouseReleased(UIScreen.java:165)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.Mouse.method_1605(Mouse.java:101)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.gui.screen.Screen.wrapScreenError(Screen.java:414)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.Mouse.onMouseButton(Mouse.java:101)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.Mouse.method_22686(Mouse.java:180)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ThreadExecutor.execute(ThreadExecutor.java:102)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.Mouse.method_22684(Mouse.java:180)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at org.lwjgl.glfw.GLFWMouseButtonCallbackI.callback(GLFWMouseButtonCallbackI.java:43)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at org.lwjgl.system.JNI.invokeV(Native Method)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at org.lwjgl.glfw.GLFW.glfwWaitEventsTimeout(GLFW.java:3509)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at com.mojang.blaze3d.systems.RenderSystem.limitDisplayFPS(RenderSystem.java:238)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.MinecraftClient.render(MinecraftClient.java:1352)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.MinecraftClient.run(MinecraftClient.java:888)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.main.Main.main(Main.java:265)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.game.minecraft.MinecraftGameProvider.launch(MinecraftGameProvider.java:470)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.launch.knot.Knot.launch(Knot.java:74)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.launch.knot.KnotClient.main(KnotClient.java:23)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.devlaunchinjector.Main.main(Main.java:86)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: Caused by: java.io.IOException: Exec failed, error: 2 (No such file or directory) 
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:295)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:225)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1126)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	... 32 more
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: java.io.IOException: Cannot run program "gnome-open": Exec failed, error: 2 (No such file or directory) 
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1170)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1089)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Runtime.exec(Runtime.java:681)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.Runtime.exec(Runtime.java:530)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.utils.UIUtils.runSysCommand(UIUtils.java:68)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.utils.UIUtils.openFolder(UIUtils.java:53)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.film.UIFilmRecorder.openMovies(UIFilmRecorder.java:67)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.film.UIFilmPreview.lambda$new$21(UIFilmPreview.java:197)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.context.UISimpleContextMenu.subMouseReleased(UISimpleContextMenu.java:53)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.UIElement.mouseReleased(UIElement.java:1158)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.UIElement.childrenMouseReleased(UIElement.java:1237)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.UIElement.mouseReleased(UIElement.java:1151)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.UIElement.childrenMouseReleased(UIElement.java:1237)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.elements.UIElement.mouseReleased(UIElement.java:1151)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.UIBaseMenu.mouseReleased(UIBaseMenu.java:155)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at mchorse.bbs_mod.ui.framework.UIScreen.mouseReleased(UIScreen.java:165)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.Mouse.method_1605(Mouse.java:101)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.gui.screen.Screen.wrapScreenError(Screen.java:414)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.Mouse.onMouseButton(Mouse.java:101)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.Mouse.method_22686(Mouse.java:180)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.util.thread.ThreadExecutor.execute(ThreadExecutor.java:102)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.Mouse.method_22684(Mouse.java:180)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at org.lwjgl.glfw.GLFWMouseButtonCallbackI.callback(GLFWMouseButtonCallbackI.java:43)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at org.lwjgl.system.JNI.invokeV(Native Method)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at org.lwjgl.glfw.GLFW.glfwWaitEventsTimeout(GLFW.java:3509)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at com.mojang.blaze3d.systems.RenderSystem.limitDisplayFPS(RenderSystem.java:238)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.MinecraftClient.render(MinecraftClient.java:1352)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.MinecraftClient.run(MinecraftClient.java:888)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.minecraft.client.main.Main.main(Main.java:265)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.game.minecraft.MinecraftGameProvider.launch(MinecraftGameProvider.java:470)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.launch.knot.Knot.launch(Knot.java:74)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.loader.impl.launch.knot.KnotClient.main(KnotClient.java:23)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at net.fabricmc.devlaunchinjector.Main.main(Main.java:86)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: Caused by: java.io.IOException: Exec failed, error: 2 (No such file or directory) 
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:295)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:225)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1126)
+[05:56:46] [Render thread/INFO] (Minecraft) [STDERR]: 	... 32 more
