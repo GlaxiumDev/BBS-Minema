@@ -63,6 +63,16 @@ public class MinemaConfig
      */
     public boolean generateWavFile = false;
 
+    /**
+     * Off by default. Captures the real, literal displayed framebuffer
+     * (world + GUI + inventory + settings screens + other mods' UIs --
+     * everything) instead of BBS mod's own deliberately restricted
+     * world-only render pass, matching how Minema 1.12.2 recorded. Also
+     * temporarily resizes the game window to BBS mod's configured Frame
+     * Resolution while active -- see RawCaptureModule.
+     */
+    public boolean rawCaptureMode = false;
+
     public void load()
     {
         if (!Files.exists(PATH))
@@ -93,6 +103,9 @@ public class MinemaConfig
             this.generateWavFile = Boolean.parseBoolean(
                     props.getProperty("generateWavFile", String.valueOf(this.generateWavFile))
             );
+            this.rawCaptureMode = Boolean.parseBoolean(
+                    props.getProperty("rawCaptureMode", String.valueOf(this.rawCaptureMode))
+            );
         }
         catch (IOException | NumberFormatException e)
         {
@@ -109,6 +122,7 @@ public class MinemaConfig
         props.setProperty("syncEngine", String.valueOf(this.syncEngine));
         props.setProperty("recordGameAudio", String.valueOf(this.recordGameAudio));
         props.setProperty("generateWavFile", String.valueOf(this.generateWavFile));
+        props.setProperty("rawCaptureMode", String.valueOf(this.rawCaptureMode));
 
         try
         {
@@ -146,6 +160,12 @@ public class MinemaConfig
     public void toggleGenerateWavFile()
     {
         this.generateWavFile = !this.generateWavFile;
+        this.save();
+    }
+
+    public void toggleRawCaptureMode()
+    {
+        this.rawCaptureMode = !this.rawCaptureMode;
         this.save();
     }
 }

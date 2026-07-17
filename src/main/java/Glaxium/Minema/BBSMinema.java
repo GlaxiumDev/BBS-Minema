@@ -37,6 +37,7 @@ public class BBSMinema implements ClientModInitializer
     private boolean wasRecording = false;
     private boolean wasSyncing = false;
     private boolean wasRecordingAudio = false;
+    private boolean wasRawCapturing = false;
 
     /** Set the moment we open the WAV file, used to find BBS mod's own output video for muxing afterwards -- see GameAudioRecorder#muxIntoVideo. */
     private long audioRecordingStartedAt;
@@ -45,6 +46,7 @@ public class BBSMinema implements ClientModInitializer
     private KeyBinding toggleSyncKey;
     private KeyBinding toggleAudioKey;
     private KeyBinding toggleAudioMuxKey;
+    private KeyBinding toggleRawCaptureKey;
 
     @Override
     public void onInitializeClient()
@@ -76,6 +78,13 @@ public class BBSMinema implements ClientModInitializer
                 "key.bbs_minema.toggle_audio_mux",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_UNKNOWN, // unbound by default, set it in Controls
+                "key.categories.bbs_minema"
+        ));
+
+        this.toggleRawCaptureKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.bbs_minema.toggle_raw_capture",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_UNKNOWN, // unbound by default -- bind this to F4 yourself in Controls to match Minema 1.12.2's default
                 "key.categories.bbs_minema"
         ));
 
@@ -130,6 +139,18 @@ public class BBSMinema implements ClientModInitializer
                 String state = this.config.generateWavFile ? "ON" : "OFF";
 
                 client.player.sendMessage(Text.literal("BBS Minema generate .wav file: " + state), true);
+            }
+        }
+
+        if (this.toggleRawCaptureKey.wasPressed())
+        {
+            this.config.toggleRawCaptureMode();
+
+            if (client.player != null)
+            {
+                String state = this.config.rawCaptureMode ? "ON" : "OFF";
+
+                client.player.sendMessage(Text.literal("BBS Minema raw (full screen) capture: " + state), true);
             }
         }
 
@@ -248,5 +269,26 @@ public class BBSMinema implements ClientModInitializer
         {
             this.audioRecorder.captureFrame();
         }
+
+        // Raw (full screen, GUI included) capture -- own start/stop edge,
+        // independent of the depth pass toggle. Actual per-frame capture
+        // happens later in the frame from MinecraftClientRawCaptureMixin
+        // (TAIL of MinecraftClient#render), after GUI/screens have drawn --
+        // this only handles start/stop, same canRender-gated rising/falling
+        // edge pattern as everything else above.
+        boolean rawCapturingNow = videoRecorder.isRecording()
+                && BBSRendering.canRender
+                && this.config.rawCaptureMode;
+
+        if (rawCapturingNow && !this.wasRawCapturing)
+        {
+            RawCaptureModule.INSTANCE.start();
+        }
+        else if (!rawCapturingNow && this.wasRawCapturing)
+        {
+            RawCaptureModule.INSTANCE.stop();
+        }
+
+        this.wasRawCapturing = rawCapturingNow;
     }
 }

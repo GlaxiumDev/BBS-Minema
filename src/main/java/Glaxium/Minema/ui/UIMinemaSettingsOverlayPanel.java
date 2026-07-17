@@ -21,6 +21,7 @@ public class UIMinemaSettingsOverlayPanel extends UIOverlayPanel
     private UIToggle captureDepth;
     private UITrackpad captureDepthDistance;
     private UIToggle syncEngine;
+    private UIToggle rawCaptureMode;
 
     public UIMinemaSettingsOverlayPanel()
     {
@@ -65,6 +66,13 @@ public class UIMinemaSettingsOverlayPanel extends UIOverlayPanel
         });
         this.syncEngine.tooltip(IKey.raw("Keeps fast-moving things (like TNT) from desyncing with the video. Singleplayer only."));
 
+        this.rawCaptureMode = new UIToggle(IKey.raw("Raw (full screen) capture"), config.rawCaptureMode, (toggle) ->
+        {
+            config.rawCaptureMode = toggle.getValue();
+            config.save();
+        });
+        this.rawCaptureMode.tooltip(IKey.raw("Records everything on screen (GUI, inventory, settings, other mods) at BBS's Frame Resolution. Temporarily resizes the game window while recording."));
+
         UIScrollView editor = UI.scrollView(5, 6,
                 UI.label(IKey.raw("In-game audio")),
                 this.recordGameAudio,
@@ -74,7 +82,9 @@ public class UIMinemaSettingsOverlayPanel extends UIOverlayPanel
                 UI.label(IKey.raw("Capture distance")).marginTop(6),
                 this.captureDepthDistance,
                 UI.label(IKey.raw("Tick synchronization")).marginTop(6),
-                this.syncEngine
+                this.syncEngine,
+                UI.label(IKey.raw("Full screen capture")).marginTop(6),
+                this.rawCaptureMode
         );
 
         this.content.add(editor.full(this.content));
