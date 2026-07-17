@@ -37,6 +37,15 @@ public class MinemaConfig
     /** Far plane in blocks used to normalize the depth pass. Minema's default was tied to render distance; 128 is a reasonable flat default for typical builds. */
     public double captureDepthDistance = 128.0;
 
+    /**
+     * Off by default -- mirrors Minema's own syncEngine toggle. Only takes
+     * effect in singleplayer; see {@link Glaxium.Minema.SyncModule}. Adds a
+     * small amount of real-world recording overhead (each captured frame now
+     * waits on a tick round-trip instead of racing the server thread), so
+     * it's opt-in rather than automatic.
+     */
+    public boolean syncEngine = false;
+
     public void load()
     {
         if (!Files.exists(PATH))
@@ -58,6 +67,9 @@ public class MinemaConfig
             this.captureDepthDistance = Double.parseDouble(
                     props.getProperty("captureDepthDistance", String.valueOf(this.captureDepthDistance))
             );
+            this.syncEngine = Boolean.parseBoolean(
+                    props.getProperty("syncEngine", String.valueOf(this.syncEngine))
+            );
         }
         catch (IOException | NumberFormatException e)
         {
@@ -71,6 +83,7 @@ public class MinemaConfig
 
         props.setProperty("captureDepth", String.valueOf(this.captureDepth));
         props.setProperty("captureDepthDistance", String.valueOf(this.captureDepthDistance));
+        props.setProperty("syncEngine", String.valueOf(this.syncEngine));
 
         try
         {
@@ -90,6 +103,12 @@ public class MinemaConfig
     public void toggleCaptureDepth()
     {
         this.captureDepth = !this.captureDepth;
+        this.save();
+    }
+
+    public void toggleSyncEngine()
+    {
+        this.syncEngine = !this.syncEngine;
         this.save();
     }
 }

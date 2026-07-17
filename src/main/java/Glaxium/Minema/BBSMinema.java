@@ -31,8 +31,10 @@ public class BBSMinema implements ClientModInitializer
     // to this class -- both read/write the same static MinemaConfig.INSTANCE.
     private final MinemaConfig config = MinemaConfig.INSTANCE;
     private boolean wasRecording = false;
+    private boolean wasSyncing = false;
 
     private KeyBinding toggleKey;
+    private KeyBinding toggleSyncKey;
 
     @Override
     public void onInitializeClient()
@@ -41,6 +43,13 @@ public class BBSMinema implements ClientModInitializer
 
         this.toggleKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.bbs_minema.toggle_depth",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_UNKNOWN, // unbound by default, set it in Controls
+                "key.categories.bbs_minema"
+        ));
+
+        this.toggleSyncKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.bbs_minema.toggle_sync",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_UNKNOWN, // unbound by default, set it in Controls
                 "key.categories.bbs_minema"
@@ -63,6 +72,35 @@ public class BBSMinema implements ClientModInitializer
                 client.player.sendMessage(Text.literal("BBS Minema depth pass: " + state), true);
             }
         }
+
+        if (this.toggleSyncKey.wasPressed())
+        {
+            this.config.toggleSyncEngine();
+
+            if (client.player != null)
+            {
+                String state = this.config.syncEngine ? "ON" : "OFF";
+
+                client.player.sendMessage(Text.literal("BBS Minema tick sync: " + state), true);
+            }
+        }
+
+        VideoRecorder videoRecorder = BBSModClient.getVideoRecorder();
+        boolean syncingNow = this.config.syncEngine
+                && videoRecorder.isRecording()
+                && client.isIntegratedServerRunning();
+
+        if (syncingNow && !this.wasSyncing)
+        {
+            // Rising edge only -- re-arms SyncModule's bookkeeping against
+            // whatever VideoRecorder#serverTicks currently is, so turning
+            // sync on mid-recording doesn't try to catch up on ticks that
+            // already ran unsynced.
+            SyncModule.reset();
+        }
+
+        SyncModule.enabled = syncingNow;
+        this.wasSyncing = syncingNow;
     }
 
     private void onWorldRenderLast(WorldRenderContext context)

@@ -1,4 +1,5 @@
 {
   "key.categories.bbs_minema": "BBS Minema",
-  "key.bbs_minema.toggle_depth": "Toggle depth pass recording"
+  "key.bbs_minema.toggle_depth": "Toggle depth pass recording",
+  "key.bbs_minema.toggle_sync": "Toggle tick synchronization"
 }

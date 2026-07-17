@@ -36,7 +36,7 @@ public abstract class UIVideoSettingsOverlayPanelMixin extends UIOverlayPanel
         super(null);
     }
 
-    @Inject(method = "<init>(Lmchorse/bbs_mod/settings/values/ui/ValueVideoSettings;)V", at = @At("TAIL"))
+    @Inject(method = "<init>(Lmchorse/bbs_mod/settings/values/ui/ValueVideoSettings;)V", at = @At("TAIL"), remap = false)
     private void bbsMinema$addIcon(ValueVideoSettings value, CallbackInfo ci)
     {
         UIIcon minemaIcon = new UIIcon(Icons.FRUSTUM, (b) ->

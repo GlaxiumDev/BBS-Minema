@@ -18,6 +18,7 @@ public class UIMinemaSettingsOverlayPanel extends UIOverlayPanel
 {
     private UIToggle captureDepth;
     private UITrackpad captureDepthDistance;
+    private UIToggle syncEngine;
 
     public UIMinemaSettingsOverlayPanel()
     {
@@ -41,11 +42,26 @@ public class UIMinemaSettingsOverlayPanel extends UIOverlayPanel
         this.captureDepthDistance.tooltip(IKey.raw("Far plane (in blocks) used to normalize the depth pass"));
         this.captureDepthDistance.setValue(config.captureDepthDistance);
 
+        this.syncEngine = new UIToggle(IKey.raw("Sync engine to capture"), config.syncEngine, (toggle) ->
+        {
+            config.syncEngine = toggle.getValue();
+            config.save();
+        });
+        this.syncEngine.tooltip(IKey.raw(
+                "Pause the world simulation each tick until the frame it produced has "
+                        + "actually been captured, instead of letting it run freely alongside "
+                        + "capture. Prevents things like fast-moving TNT/entities from drifting "
+                        + "out of sync with the recorded video. Singleplayer only; adds a small "
+                        + "amount of real-world recording time."
+        ));
+
         UIScrollView editor = UI.scrollView(5, 6,
                 UI.label(IKey.raw("Depth pass")),
                 this.captureDepth,
                 UI.label(IKey.raw("Capture distance")).marginTop(6),
-                this.captureDepthDistance
+                this.captureDepthDistance,
+                UI.label(IKey.raw("Tick synchronization")).marginTop(6),
+                this.syncEngine
         );
 
         this.content.add(editor.full(this.content));
