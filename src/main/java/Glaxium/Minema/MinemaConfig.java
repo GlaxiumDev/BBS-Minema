@@ -46,6 +46,23 @@ public class MinemaConfig
      */
     public boolean syncEngine = false;
 
+    /**
+     * Off by default. Captures BBS mod's actual mixed game audio (not the
+     * microphone) and burns it into the output video once recording stops.
+     * Independent of {@link #generateWavFile} -- this can be on by itself
+     * (audio in the video, no standalone file), or both can be on at once
+     * (audio in the video AND a standalone .wav).
+     */
+    public boolean recordGameAudio = false;
+
+    /**
+     * Off by default. Keeps the recorded game audio as its own .wav file.
+     * Independent of {@link #recordGameAudio} -- this can be on by itself
+     * (just the .wav, video's own audio untouched), or both can be on at
+     * once (.wav AND audio burned into the video).
+     */
+    public boolean generateWavFile = false;
+
     public void load()
     {
         if (!Files.exists(PATH))
@@ -70,6 +87,12 @@ public class MinemaConfig
             this.syncEngine = Boolean.parseBoolean(
                     props.getProperty("syncEngine", String.valueOf(this.syncEngine))
             );
+            this.recordGameAudio = Boolean.parseBoolean(
+                    props.getProperty("recordGameAudio", String.valueOf(this.recordGameAudio))
+            );
+            this.generateWavFile = Boolean.parseBoolean(
+                    props.getProperty("generateWavFile", String.valueOf(this.generateWavFile))
+            );
         }
         catch (IOException | NumberFormatException e)
         {
@@ -84,6 +107,8 @@ public class MinemaConfig
         props.setProperty("captureDepth", String.valueOf(this.captureDepth));
         props.setProperty("captureDepthDistance", String.valueOf(this.captureDepthDistance));
         props.setProperty("syncEngine", String.valueOf(this.syncEngine));
+        props.setProperty("recordGameAudio", String.valueOf(this.recordGameAudio));
+        props.setProperty("generateWavFile", String.valueOf(this.generateWavFile));
 
         try
         {
@@ -109,6 +134,18 @@ public class MinemaConfig
     public void toggleSyncEngine()
     {
         this.syncEngine = !this.syncEngine;
+        this.save();
+    }
+
+    public void toggleRecordGameAudio()
+    {
+        this.recordGameAudio = !this.recordGameAudio;
+        this.save();
+    }
+
+    public void toggleGenerateWavFile()
+    {
+        this.generateWavFile = !this.generateWavFile;
         this.save();
     }
 }

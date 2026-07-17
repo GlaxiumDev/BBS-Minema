@@ -16,6 +16,8 @@ import mchorse.bbs_mod.ui.utils.UI;
  */
 public class UIMinemaSettingsOverlayPanel extends UIOverlayPanel
 {
+    private UIToggle recordGameAudio;
+    private UIToggle generateWavFile;
     private UIToggle captureDepth;
     private UITrackpad captureDepthDistance;
     private UIToggle syncEngine;
@@ -26,12 +28,26 @@ public class UIMinemaSettingsOverlayPanel extends UIOverlayPanel
 
         MinemaConfig config = MinemaConfig.INSTANCE;
 
+        this.recordGameAudio = new UIToggle(IKey.raw("Record in-game audio"), config.recordGameAudio, (toggle) ->
+        {
+            config.recordGameAudio = toggle.getValue();
+            config.save();
+        });
+        this.recordGameAudio.tooltip(IKey.raw("Adds the game's real audio to the video. Mutes your speakers while recording."));
+
+        this.generateWavFile = new UIToggle(IKey.raw("Generate .wav Audio file"), config.generateWavFile, (toggle) ->
+        {
+            config.generateWavFile = toggle.getValue();
+            config.save();
+        });
+        this.generateWavFile.tooltip(IKey.raw("Also saves the audio as a separate .wav file."));
+
         this.captureDepth = new UIToggle(IKey.raw("Capture depth pass"), config.captureDepth, (toggle) ->
         {
             config.captureDepth = toggle.getValue();
             config.save();
         });
-        this.captureDepth.tooltip(IKey.raw("Record a linearized depth pass alongside this recording"));
+        this.captureDepth.tooltip(IKey.raw("Records a depth pass video alongside this recording."));
 
         this.captureDepthDistance = new UITrackpad((v) ->
         {
@@ -39,7 +55,7 @@ public class UIMinemaSettingsOverlayPanel extends UIOverlayPanel
             config.save();
         });
         this.captureDepthDistance.limit(1, 1024, true);
-        this.captureDepthDistance.tooltip(IKey.raw("Far plane (in blocks) used to normalize the depth pass"));
+        this.captureDepthDistance.tooltip(IKey.raw("Max distance (blocks) the depth pass covers."));
         this.captureDepthDistance.setValue(config.captureDepthDistance);
 
         this.syncEngine = new UIToggle(IKey.raw("Sync engine to capture"), config.syncEngine, (toggle) ->
@@ -47,16 +63,13 @@ public class UIMinemaSettingsOverlayPanel extends UIOverlayPanel
             config.syncEngine = toggle.getValue();
             config.save();
         });
-        this.syncEngine.tooltip(IKey.raw(
-                "Pause the world simulation each tick until the frame it produced has "
-                        + "actually been captured, instead of letting it run freely alongside "
-                        + "capture. Prevents things like fast-moving TNT/entities from drifting "
-                        + "out of sync with the recorded video. Singleplayer only; adds a small "
-                        + "amount of real-world recording time."
-        ));
+        this.syncEngine.tooltip(IKey.raw("Keeps fast-moving things (like TNT) from desyncing with the video. Singleplayer only."));
 
         UIScrollView editor = UI.scrollView(5, 6,
-                UI.label(IKey.raw("Depth pass")),
+                UI.label(IKey.raw("In-game audio")),
+                this.recordGameAudio,
+                this.generateWavFile,
+                UI.label(IKey.raw("Depth pass")).marginTop(6),
                 this.captureDepth,
                 UI.label(IKey.raw("Capture distance")).marginTop(6),
                 this.captureDepthDistance,

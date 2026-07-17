@@ -2,6 +2,7 @@ package Glaxium.Minema;
 
 import mchorse.bbs_mod.BBSModClient;
 import mchorse.bbs_mod.client.BBSRendering;
+import mchorse.bbs_mod.utils.StringUtils;
 import mchorse.bbs_mod.utils.VideoRecorder;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -15,6 +16,8 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
+import java.io.File;
+
 /**
  * Piggybacks on BBS mod's own VideoRecorder for start/stop timing, gated
  * behind an opt-in toggle (default OFF) matching how Minema 1.12.2 treated
@@ -27,14 +30,21 @@ import org.lwjgl.glfw.GLFW;
 public class BBSMinema implements ClientModInitializer
 {
     private final MinemaRecorder depthRecorder = new MinemaRecorder();
+    private final GameAudioRecorder audioRecorder = new GameAudioRecorder();
     // Shared with UIVideoSettingsOverlayPanelMixin, which has no reference
     // to this class -- both read/write the same static MinemaConfig.INSTANCE.
     private final MinemaConfig config = MinemaConfig.INSTANCE;
     private boolean wasRecording = false;
     private boolean wasSyncing = false;
+    private boolean wasRecordingAudio = false;
+
+    /** Set the moment we open the WAV file, used to find BBS mod's own output video for muxing afterwards -- see GameAudioRecorder#muxIntoVideo. */
+    private long audioRecordingStartedAt;
 
     private KeyBinding toggleKey;
     private KeyBinding toggleSyncKey;
+    private KeyBinding toggleAudioKey;
+    private KeyBinding toggleAudioMuxKey;
 
     @Override
     public void onInitializeClient()
@@ -50,6 +60,20 @@ public class BBSMinema implements ClientModInitializer
 
         this.toggleSyncKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.bbs_minema.toggle_sync",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_UNKNOWN, // unbound by default, set it in Controls
+                "key.categories.bbs_minema"
+        ));
+
+        this.toggleAudioKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.bbs_minema.toggle_audio",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_UNKNOWN, // unbound by default, set it in Controls
+                "key.categories.bbs_minema"
+        ));
+
+        this.toggleAudioMuxKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.bbs_minema.toggle_audio_mux",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_UNKNOWN, // unbound by default, set it in Controls
                 "key.categories.bbs_minema"
@@ -85,7 +109,84 @@ public class BBSMinema implements ClientModInitializer
             }
         }
 
+        if (this.toggleAudioKey.wasPressed())
+        {
+            this.config.toggleRecordGameAudio();
+
+            if (client.player != null)
+            {
+                String state = this.config.recordGameAudio ? "ON" : "OFF";
+
+                client.player.sendMessage(Text.literal("BBS Minema game audio: " + state), true);
+            }
+        }
+
+        if (this.toggleAudioMuxKey.wasPressed())
+        {
+            this.config.toggleGenerateWavFile();
+
+            if (client.player != null)
+            {
+                String state = this.config.generateWavFile ? "ON" : "OFF";
+
+                client.player.sendMessage(Text.literal("BBS Minema generate .wav file: " + state), true);
+            }
+        }
+
         VideoRecorder videoRecorder = BBSModClient.getVideoRecorder();
+
+        // Either toggle alone should still capture -- "Generate .wav" by
+        // itself needs audio captured just as much as "Record in-game
+        // audio" does, it just skips the mux step below. Independent of
+        // BBSRendering.canRender (unlike the depth pass) -- this only needs
+        // VideoRecorder's own isRecording() flag, so it reacts identically
+        // whether recording was started via F4 or the film editor, and
+        // starts as early as possible to give the loopback device time to
+        // come up before the first captured frame.
+        boolean wantsAudio = this.config.recordGameAudio || this.config.generateWavFile;
+        boolean recordingAudioNow = wantsAudio && videoRecorder.isRecording();
+
+        if (recordingAudioNow && !this.wasRecordingAudio)
+        {
+            this.audioRecordingStartedAt = System.currentTimeMillis();
+
+            this.audioRecorder.startRecording(
+                    BBSRendering.getVideoFolder().toPath(),
+                    StringUtils.createTimestampFilename(),
+                    (int) Math.max(1, BBSRendering.getVideoFrameRate())
+            );
+        }
+        else if (!recordingAudioNow && this.wasRecordingAudio)
+        {
+            File wav = this.audioRecorder.stopRecording();
+
+            if (wav != null && this.config.recordGameAudio)
+            {
+                long startedAt = this.audioRecordingStartedAt;
+                boolean keepWav = this.config.generateWavFile;
+
+                // ffmpeg mux can take a while on longer recordings -- run it
+                // off the client tick thread so it doesn't freeze the game.
+                // muxIntoVideo/findColorVideoOutput/File I/O below don't
+                // touch anything client-thread-only.
+                Thread muxThread = new Thread(() -> this.audioRecorder.muxIntoVideo(
+                        wav,
+                        BBSRendering.getVideoFolder().toPath(),
+                        startedAt,
+                        keepWav
+                ), "bbs-minema-audio-mux");
+
+                muxThread.setDaemon(true);
+                muxThread.start();
+            }
+
+            // "Generate .wav" was the only thing on (recordGameAudio is
+            // off) -- the WAV GameAudioRecorder already wrote is the
+            // finished output, nothing further to do. If NEITHER toggle
+            // was on, wav is null and this whole branch is a no-op.
+        }
+
+        this.wasRecordingAudio = recordingAudioNow;
         boolean syncingNow = this.config.syncEngine
                 && videoRecorder.isRecording()
                 && client.isIntegratedServerRunning();
@@ -134,5 +235,18 @@ public class BBSMinema implements ClientModInitializer
         }
 
         this.wasRecording = recordingNow;
+
+        // Same canRender gate as the depth pass -- one audio frame per
+        // color frame BBS mod actually captures, not per render call.
+        // Either audio toggle being on should keep frames flowing in --
+        // see the wantsAudio comment in onClientTick for why.
+        boolean capturingAudioNow = videoRecorder.isRecording()
+                && BBSRendering.canRender
+                && (this.config.recordGameAudio || this.config.generateWavFile);
+
+        if (capturingAudioNow)
+        {
+            this.audioRecorder.captureFrame();
+        }
     }
 }

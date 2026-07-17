@@ -5,7 +5,8 @@
   "client": [
     "UIVideoSettingsOverlayPanelMixin",
     "MinecraftClientRenderSyncMixin",
-    "MinecraftServerTickSyncMixin"
+    "MinecraftServerTickSyncMixin",
+    "SoundEngineMixin"
   ],
   "injectors": {
     "defaultRequire": 1
