@@ -20,9 +20,16 @@ import java.util.Properties;
  */
 public class MinemaConfig
 {
+    /**
+     * The mixin that adds the toggle to BBS mod's own settings panel has no
+     * reference to BBSMinema's instance, so this needs to be reachable
+     * statically. Loaded once in BBSMinema#onInitializeClient.
+     */
+    public static final MinemaConfig INSTANCE = new MinemaConfig();
+
     private static final Path PATH = FabricLoader.getInstance()
-        .getConfigDir()
-        .resolve("bbs-minema.properties");
+            .getConfigDir()
+            .resolve("bbs-minema.properties");
 
     /** Off by default -- same as Minema's captureDepth, opt-in not automatic. */
     public boolean captureDepth = false;
@@ -46,10 +53,10 @@ public class MinemaConfig
             props.load(in);
 
             this.captureDepth = Boolean.parseBoolean(
-                props.getProperty("captureDepth", String.valueOf(this.captureDepth))
+                    props.getProperty("captureDepth", String.valueOf(this.captureDepth))
             );
             this.captureDepthDistance = Double.parseDouble(
-                props.getProperty("captureDepthDistance", String.valueOf(this.captureDepthDistance))
+                    props.getProperty("captureDepthDistance", String.valueOf(this.captureDepthDistance))
             );
         }
         catch (IOException | NumberFormatException e)

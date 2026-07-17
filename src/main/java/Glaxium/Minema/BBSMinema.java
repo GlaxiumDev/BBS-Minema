@@ -16,15 +16,20 @@ import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 /**
- * Piggybacks on BBS mod's own VideoRecorder for start/stop timing, but now
- * gated behind an actual opt-in toggle (default OFF, unbound key), matching
- * how Minema 1.12.2 treated depth capture as a separate setting rather than
- * something bundled into every recording.
+ * Piggybacks on BBS mod's own VideoRecorder for start/stop timing, gated
+ * behind an opt-in toggle (default OFF) matching how Minema 1.12.2 treated
+ * depth capture as a separate setting. The toggle itself lives in two
+ * places wired to the same MinemaConfig.INSTANCE: a row injected directly
+ * into BBS mod's own "Video export settings" panel (see
+ * UIVideoSettingsOverlayPanelMixin), and this class's own keybind as a
+ * quick way to flip it without opening that panel.
  */
 public class BBSMinema implements ClientModInitializer
 {
     private final MinemaRecorder depthRecorder = new MinemaRecorder();
-    private final MinemaConfig config = new MinemaConfig();
+    // Shared with UIVideoSettingsOverlayPanelMixin, which has no reference
+    // to this class -- both read/write the same static MinemaConfig.INSTANCE.
+    private final MinemaConfig config = MinemaConfig.INSTANCE;
     private boolean wasRecording = false;
 
     private KeyBinding toggleKey;

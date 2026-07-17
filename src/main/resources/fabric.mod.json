@@ -11,9 +11,12 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "Glacium.Minema.BBSMinema"
+      "Glaxium.Minema.BBSMinema"
     ]
   },
+  "mixins": [
+    "bbs-minema.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.15.0",
     "fabric-api": "*",
