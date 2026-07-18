@@ -3,7 +3,6 @@ package Glaxium.Minema;
 import mchorse.bbs_mod.BBSModClient;
 import mchorse.bbs_mod.client.BBSRendering;
 import mchorse.bbs_mod.utils.StringUtils;
-import mchorse.bbs_mod.utils.VideoRecorder;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -19,13 +18,22 @@ import org.lwjgl.glfw.GLFW;
 import java.io.File;
 
 /**
- * Piggybacks on BBS mod's own VideoRecorder for start/stop timing, gated
- * behind an opt-in toggle (default OFF) matching how Minema 1.12.2 treated
- * depth capture as a separate setting. The toggle itself lives in two
- * places wired to the same MinemaConfig.INSTANCE: a row injected directly
- * into BBS mod's own "Video export settings" panel (see
- * UIVideoSettingsOverlayPanelMixin), and this class's own keybind as a
- * quick way to flip it without opening that panel.
+ * F4 is now owned entirely by BBS-Minema (see {@link #recordKey}), not BBS
+ * mod's own VideoRecorder -- BBS mod's own F4 keybinding is neutralized by
+ * DisableBBSVideoKeyMixin so it can never start BBS mod's own world-only
+ * recording pipeline again. Pressing F4 here drives RawCaptureModule
+ * directly, which reads the real, final, already-composited framebuffer
+ * (world + HUD + inventory + settings screens + other mods' UIs -- exactly
+ * what Minema 1.12.2 recorded), with its own independent fixed-timestep
+ * pacing (MinemaRenderTickCounterMixin) so output speed doesn't depend on
+ * BBS mod's recorder being active at all.
+ *
+ * The depth pass, in-game audio, and tick sync features below now key off
+ * {@link #isAnyRecording()} -- true either while BBS-Minema's own F4
+ * recording is running, or while BBS mod's own VideoRecorder happens to be
+ * active some other way (e.g. the film editor's "export video" button,
+ * which doesn't go through F4 at all and is left completely intact) -- so
+ * they still work no matter which pipeline is actually rolling.
  */
 public class BBSMinema implements ClientModInitializer
 {
@@ -37,7 +45,6 @@ public class BBSMinema implements ClientModInitializer
     private boolean wasRecording = false;
     private boolean wasSyncing = false;
     private boolean wasRecordingAudio = false;
-    private boolean wasRawCapturing = false;
 
     /** Set the moment we open the WAV file, used to find BBS mod's own output video for muxing afterwards -- see GameAudioRecorder#muxIntoVideo. */
     private long audioRecordingStartedAt;
@@ -46,7 +53,9 @@ public class BBSMinema implements ClientModInitializer
     private KeyBinding toggleSyncKey;
     private KeyBinding toggleAudioKey;
     private KeyBinding toggleAudioMuxKey;
-    private KeyBinding toggleRawCaptureKey;
+
+    /** BBS-Minema's own F4 -- starts/stops RawCaptureModule directly. Replaces BBS mod's own F4, which DisableBBSVideoKeyMixin permanently disables. */
+    private KeyBinding recordKey;
 
     @Override
     public void onInitializeClient()
@@ -81,15 +90,31 @@ public class BBSMinema implements ClientModInitializer
                 "key.categories.bbs_minema"
         ));
 
-        this.toggleRawCaptureKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        this.recordKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.bbs_minema.toggle_raw_capture",
                 InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_UNKNOWN, // unbound by default -- bind this to F4 yourself in Controls to match Minema 1.12.2's default
+                GLFW.GLFW_KEY_F4, // matches Minema 1.12.2's default -- BBS mod's own F4 is disabled, see DisableBBSVideoKeyMixin
                 "key.categories.bbs_minema"
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
         WorldRenderEvents.LAST.register(this::onWorldRenderLast);
+
+        // Don't leave an ffmpeg process hanging (and the window resized) if
+        // the world unloads out from under an active recording.
+        net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
+        {
+            if (RawCaptureModule.INSTANCE.isRecording())
+            {
+                RawCaptureModule.INSTANCE.stop();
+            }
+        });
+    }
+
+    /** True while either BBS-Minema's own F4 capture or BBS mod's own VideoRecorder (triggered some other way) is recording. */
+    private boolean isAnyRecording()
+    {
+        return RawCaptureModule.INSTANCE.isRecording() || BBSModClient.getVideoRecorder().isRecording();
     }
 
     private void onClientTick(MinecraftClient client)
@@ -142,30 +167,38 @@ public class BBSMinema implements ClientModInitializer
             }
         }
 
-        if (this.toggleRawCaptureKey.wasPressed())
+        if (this.recordKey.wasPressed())
         {
-            this.config.toggleRawCaptureMode();
-
-            if (client.player != null)
+            if (RawCaptureModule.INSTANCE.isRecording())
             {
-                String state = this.config.rawCaptureMode ? "ON" : "OFF";
+                RawCaptureModule.INSTANCE.stop();
 
-                client.player.sendMessage(Text.literal("BBS Minema raw (full screen) capture: " + state), true);
+                if (client.player != null)
+                {
+                    client.player.sendMessage(Text.literal("BBS Minema: recording stopped"), true);
+                }
+            }
+            else
+            {
+                RawCaptureModule.INSTANCE.start();
+
+                if (client.player != null)
+                {
+                    client.player.sendMessage(Text.literal("BBS Minema: recording started"), true);
+                }
             }
         }
-
-        VideoRecorder videoRecorder = BBSModClient.getVideoRecorder();
 
         // Either toggle alone should still capture -- "Generate .wav" by
         // itself needs audio captured just as much as "Record in-game
         // audio" does, it just skips the mux step below. Independent of
         // BBSRendering.canRender (unlike the depth pass) -- this only needs
-        // VideoRecorder's own isRecording() flag, so it reacts identically
-        // whether recording was started via F4 or the film editor, and
-        // starts as early as possible to give the loopback device time to
-        // come up before the first captured frame.
+        // isAnyRecording(), so it reacts identically whether recording was
+        // started via F4 (this addon) or the film editor, and starts as
+        // early as possible to give the loopback device time to come up
+        // before the first captured frame.
         boolean wantsAudio = this.config.recordGameAudio || this.config.generateWavFile;
-        boolean recordingAudioNow = wantsAudio && videoRecorder.isRecording();
+        boolean recordingAudioNow = wantsAudio && this.isAnyRecording();
 
         if (recordingAudioNow && !this.wasRecordingAudio)
         {
@@ -209,7 +242,7 @@ public class BBSMinema implements ClientModInitializer
 
         this.wasRecordingAudio = recordingAudioNow;
         boolean syncingNow = this.config.syncEngine
-                && videoRecorder.isRecording()
+                && this.isAnyRecording()
                 && client.isIntegratedServerRunning();
 
         if (syncingNow && !this.wasSyncing)
@@ -227,15 +260,17 @@ public class BBSMinema implements ClientModInitializer
 
     private void onWorldRenderLast(WorldRenderContext context)
     {
-        VideoRecorder videoRecorder = BBSModClient.getVideoRecorder();
-        boolean recordingNow = videoRecorder.isRecording()
+        // canRender is driven by whichever pacing mixin is actually active
+        // for the current recording -- MinemaRenderTickCounterMixin for
+        // BBS-Minema's own F4 capture, or bbs-mod's own RenderTickCounterMixin
+        // if VideoRecorder is running some other way. Either way it means
+        // "a fixed-timestep capture frame is ready right now."
+        boolean recordingNow = this.isAnyRecording()
                 && BBSRendering.canRender
                 && this.config.captureDepth;
 
         if (recordingNow && !this.wasRecording)
         {
-            // BBS mod's video is already rolling by the time canRender flips
-            // true on the same frame, so widths/heights are safe to read here.
             this.depthRecorder.setPlanes(0.05F, (float) this.config.captureDepthDistance);
             this.depthRecorder.startRecording(
                     BBSRendering.getVideoWidth(),
@@ -258,10 +293,10 @@ public class BBSMinema implements ClientModInitializer
         this.wasRecording = recordingNow;
 
         // Same canRender gate as the depth pass -- one audio frame per
-        // color frame BBS mod actually captures, not per render call.
-        // Either audio toggle being on should keep frames flowing in --
-        // see the wantsAudio comment in onClientTick for why.
-        boolean capturingAudioNow = videoRecorder.isRecording()
+        // color frame actually captured, not per render call. Either audio
+        // toggle being on should keep frames flowing in -- see the
+        // wantsAudio comment in onClientTick for why.
+        boolean capturingAudioNow = this.isAnyRecording()
                 && BBSRendering.canRender
                 && (this.config.recordGameAudio || this.config.generateWavFile);
 
@@ -270,25 +305,10 @@ public class BBSMinema implements ClientModInitializer
             this.audioRecorder.captureFrame();
         }
 
-        // Raw (full screen, GUI included) capture -- own start/stop edge,
-        // independent of the depth pass toggle. Actual per-frame capture
-        // happens later in the frame from MinecraftClientRawCaptureMixin
-        // (TAIL of MinecraftClient#render), after GUI/screens have drawn --
-        // this only handles start/stop, same canRender-gated rising/falling
-        // edge pattern as everything else above.
-        boolean rawCapturingNow = videoRecorder.isRecording()
-                && BBSRendering.canRender
-                && this.config.rawCaptureMode;
-
-        if (rawCapturingNow && !this.wasRawCapturing)
-        {
-            RawCaptureModule.INSTANCE.start();
-        }
-        else if (!rawCapturingNow && this.wasRawCapturing)
-        {
-            RawCaptureModule.INSTANCE.stop();
-        }
-
-        this.wasRawCapturing = rawCapturingNow;
+        // Raw (full screen, GUI included) capture's own start/stop is now
+        // driven directly by the F4 keypress in onClientTick, not an edge
+        // here -- per-frame capture happens later in the frame from
+        // MinecraftClientRawCaptureMixin (TAIL of MinecraftClient#render),
+        // after GUI/screens have drawn.
     }
 }

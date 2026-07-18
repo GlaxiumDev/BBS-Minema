@@ -39,7 +39,7 @@ public class MinemaConfig
 
     /**
      * Off by default -- mirrors Minema's own syncEngine toggle. Only takes
-     * effect in singleplayer; see {@link Glaxium.Minema.SyncModule}. Adds a
+     * effect in singleplayer; see {@link SyncModule}. Adds a
      * small amount of real-world recording overhead (each captured frame now
      * waits on a tick round-trip instead of racing the server thread), so
      * it's opt-in rather than automatic.
@@ -64,12 +64,11 @@ public class MinemaConfig
     public boolean generateWavFile = false;
 
     /**
-     * Off by default. Captures the real, literal displayed framebuffer
-     * (world + GUI + inventory + settings screens + other mods' UIs --
-     * everything) instead of BBS mod's own deliberately restricted
-     * world-only render pass, matching how Minema 1.12.2 recorded. Also
-     * temporarily resizes the game window to BBS mod's configured Frame
-     * Resolution while active -- see RawCaptureModule.
+     * Legacy/unused. F4 always does the raw (full screen) capture now --
+     * see RawCaptureModule and BBSMinema#recordKey -- BBS mod's own F4 is
+     * permanently disabled (DisableBBSVideoKeyMixin), so there's no longer
+     * a separate pipeline for this to opt into. Kept only so existing
+     * bbs-minema.properties files with this key still parse without error.
      */
     public boolean rawCaptureMode = false;
 

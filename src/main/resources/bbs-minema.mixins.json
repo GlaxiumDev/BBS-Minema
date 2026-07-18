@@ -7,7 +7,9 @@
     "MinecraftClientRenderSyncMixin",
     "MinecraftServerTickSyncMixin",
     "SoundEngineMixin",
-    "MinecraftClientRawCaptureMixin"
+    "MinecraftClientRawCaptureMixin",
+    "DisableBBSVideoKeyMixin",
+    "MinemaRenderTickCounterMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -29,9 +29,30 @@ public class RawCaptureModule
     private int originalHeight;
     private boolean resized;
 
+    /**
+     * Mirrors what {@code VideoRecorder#serverTicks} is for BBS mod's own
+     * recorder -- a running count of how many fixed-timestep world ticks
+     * this capture has asked for so far. Advanced from
+     * MinemaRenderTickCounterMixin (once per frame, by however many whole
+     * ticks that frame's fixed timestep covered). SyncModule reads this
+     * instead of VideoRecorder#serverTicks while BBS-Minema's own F4
+     * capture is the one actually running.
+     */
+    private volatile int serverTicks;
+
     public boolean isRecording()
     {
         return this.recorder.isRecording();
+    }
+
+    public int getServerTicks()
+    {
+        return this.serverTicks;
+    }
+
+    public void addServerTicks(int delta)
+    {
+        this.serverTicks += delta;
     }
 
     public void start()
@@ -40,6 +61,8 @@ public class RawCaptureModule
         {
             return;
         }
+
+        this.serverTicks = 0;
 
         MinecraftClient client = MinecraftClient.getInstance();
         Window window = client.getWindow();

@@ -73,12 +73,31 @@ public class SyncModule
     {
         synchronized (LOCK)
         {
-            lastObservedTarget = BBSModClient.getVideoRecorder().serverTicks;
+            lastObservedTarget = currentServerTicks();
             captureReady = true;
             tickDone = false;
             holding = false;
             LOCK.notifyAll();
         }
+    }
+
+    /**
+     * BBS mod's own VideoRecorder#serverTicks if its recorder is the one
+     * actually running (e.g. film editor export), otherwise
+     * RawCaptureModule's own counter for BBS-Minema's F4 capture. Whichever
+     * pipeline is active is the one whose pacing mixin has been advancing
+     * ticks for this frame.
+     */
+    private static int currentServerTicks()
+    {
+        VideoRecorder recorder = BBSModClient.getVideoRecorder();
+
+        if (recorder.isRecording())
+        {
+            return recorder.serverTicks;
+        }
+
+        return RawCaptureModule.INSTANCE.getServerTicks();
     }
 
     // ---- server thread side (MinecraftServerTickSyncMixin) ----
@@ -139,19 +158,18 @@ public class SyncModule
      */
     public static void beginFrame()
     {
-        VideoRecorder recorder = BBSModClient.getVideoRecorder();
         boolean shouldSync = enabled
-                && recorder.isRecording()
+                && (BBSModClient.getVideoRecorder().isRecording() || RawCaptureModule.INSTANCE.isRecording())
                 && MinecraftClient.getInstance().isIntegratedServerRunning();
 
         if (!shouldSync)
         {
-            lastObservedTarget = recorder.serverTicks;
+            lastObservedTarget = currentServerTicks();
 
             return;
         }
 
-        int target = recorder.serverTicks;
+        int target = currentServerTicks();
         int delta = target - lastObservedTarget;
 
         lastObservedTarget = target;
