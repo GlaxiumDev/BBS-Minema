@@ -1,7 +1,7 @@
 package Glaxium.Minema;
 
 import Glaxium.Minema.ui.MinemaSettingsButton;
-import Glaxium.Minema.ui.MinemaSettingsScreen;
+import Glaxium.Minema.ui.MinemaSettingsOpener;
 import mchorse.bbs_mod.BBSModClient;
 import mchorse.bbs_mod.client.BBSRendering;
 import mchorse.bbs_mod.utils.StringUtils;
@@ -97,20 +97,6 @@ public class BBSMinema implements ClientModInitializer
         });
     }
 
-    private void openMinemaSettings()
-    {
-        MinecraftClient client = MinecraftClient.getInstance();
-        Screen current = client.currentScreen;
-
-        // Already open -- don't stack a second copy on top of itself.
-        if (current instanceof MinemaSettingsScreen)
-        {
-            return;
-        }
-
-        client.setScreen(new MinemaSettingsScreen(current));
-    }
-
     /** True while either BBS-Minema's own F4 capture or BBS mod's own VideoRecorder (triggered some other way) is recording. */
     private boolean isAnyRecording()
     {
@@ -121,14 +107,17 @@ public class BBSMinema implements ClientModInitializer
     {
         if (this.minemaSettingsKey.wasPressed())
         {
-            this.openMinemaSettings();
+            // Only ever fires while BBS's UIScreen does NOT have keyboard
+            // focus -- see MinemaSettingsOpener's class doc and
+            // MinemaSettingsUIScreenKeyMixin for the other half of Shift+F4.
+            MinemaSettingsOpener.openFromWorld();
         }
 
         if (this.recordKey.wasPressed())
         {
             if (Screen.hasShiftDown())
             {
-                this.openMinemaSettings();
+                MinemaSettingsOpener.openFromWorld();
             }
             else if (RawCaptureModule.INSTANCE.isRecording())
             {
@@ -232,10 +221,17 @@ public class BBSMinema implements ClientModInitializer
 
         if (recordingNow && !this.wasRecording)
         {
+            // Match whatever RawCaptureModule is actually capturing at --
+            // now that F4 no longer resizes the window to a target
+            // resolution, the depth pass has to read the window's real
+            // current size too, or it'd end up a different resolution than
+            // the color output.
+            net.minecraft.client.util.Window window = MinecraftClient.getInstance().getWindow();
+
             this.depthRecorder.setPlanes(0.05F, (float) this.config.captureDepthDistance);
             this.depthRecorder.startRecording(
-                    BBSRendering.getVideoWidth(),
-                    BBSRendering.getVideoHeight()
+                    window.getFramebufferWidth(),
+                    window.getFramebufferHeight()
             );
         }
         else if (!recordingNow && this.wasRecording)
