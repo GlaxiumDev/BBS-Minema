@@ -1,5 +1,7 @@
 package Glaxium.Minema;
 
+import Glaxium.Minema.ui.MinemaSettingsButton;
+import Glaxium.Minema.ui.MinemaSettingsScreen;
 import mchorse.bbs_mod.BBSModClient;
 import mchorse.bbs_mod.client.BBSRendering;
 import mchorse.bbs_mod.utils.StringUtils;
@@ -10,6 +12,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
@@ -20,7 +23,8 @@ import java.io.File;
 /**
  * F4 is now owned entirely by BBS-Minema (see {@link #recordKey}), not BBS
  * mod's own VideoRecorder -- BBS mod's own F4 keybinding is neutralized by
- * DisableBBSVideoKeyMixin so it can never start BBS mod's own world-only
+ * DisableBBSVideoKeyMixin (and hidden from Controls entirely by
+ * HideBBSVideoKeybindMixin) so it can never start BBS mod's own world-only
  * recording pipeline again. Pressing F4 here drives RawCaptureModule
  * directly, which reads the real, final, already-composited framebuffer
  * (world + HUD + inventory + settings screens + other mods' UIs -- exactly
@@ -28,19 +32,22 @@ import java.io.File;
  * pacing (MinemaRenderTickCounterMixin) so output speed doesn't depend on
  * BBS mod's recorder being active at all.
  *
- * The depth pass, in-game audio, and tick sync features below now key off
- * {@link #isAnyRecording()} -- true either while BBS-Minema's own F4
- * recording is running, or while BBS mod's own VideoRecorder happens to be
- * active some other way (e.g. the film editor's "export video" button,
- * which doesn't go through F4 at all and is left completely intact) -- so
- * they still work no matter which pipeline is actually rolling.
+ * The depth pass, in-game audio, and tick sync features no longer have
+ * their own keybinds (removed -- MinemaSettingsScreen, opened via Shift+F4
+ * or the "Minema Settings" button in BBS's own video panel, is the only way
+ * to flip them now) but still key off {@link #isAnyRecording()} -- true
+ * either while BBS-Minema's own F4 recording is running, or while BBS
+ * mod's own VideoRecorder happens to be active some other way (e.g. the
+ * film editor's "export video" button, which doesn't go through F4 at all
+ * and is left completely intact) -- so they still work no matter which
+ * pipeline is actually rolling.
  */
 public class BBSMinema implements ClientModInitializer
 {
     private final MinemaRecorder depthRecorder = new MinemaRecorder();
     private final GameAudioRecorder audioRecorder = new GameAudioRecorder();
-    // Shared with UIVideoSettingsOverlayPanelMixin, which has no reference
-    // to this class -- both read/write the same static MinemaConfig.INSTANCE.
+    // Shared with MinemaSettingsScreen, which has no reference to this
+    // class -- both read/write the same static MinemaConfig.INSTANCE.
     private final MinemaConfig config = MinemaConfig.INSTANCE;
     private boolean wasRecording = false;
     private boolean wasSyncing = false;
@@ -49,46 +56,16 @@ public class BBSMinema implements ClientModInitializer
     /** Set the moment we open the WAV file, used to find BBS mod's own output video for muxing afterwards -- see GameAudioRecorder#muxIntoVideo. */
     private long audioRecordingStartedAt;
 
-    private KeyBinding toggleKey;
-    private KeyBinding toggleSyncKey;
-    private KeyBinding toggleAudioKey;
-    private KeyBinding toggleAudioMuxKey;
-
-    /** BBS-Minema's own F4 -- starts/stops RawCaptureModule directly. Replaces BBS mod's own F4, which DisableBBSVideoKeyMixin permanently disables. */
+    /** BBS-Minema's own F4 -- starts/stops RawCaptureModule directly. Replaces BBS mod's own F4, which DisableBBSVideoKeyMixin permanently disables. Shift+F4 (checked via hasShiftDown() in onClientTick, not this binding's own wasPressed()) opens MinemaSettingsScreen instead of toggling recording. */
     private KeyBinding recordKey;
+
+    /** "Minema Settings", right below Record Video in Controls -- old-Minema-style trigger is Shift+F4 via recordKey above; this is a second, independently rebindable way to open the same MinemaSettingsScreen (unbound by default so it never shows a duplicate-key conflict against recordKey). */
+    private KeyBinding minemaSettingsKey;
 
     @Override
     public void onInitializeClient()
     {
         this.config.load();
-
-        this.toggleKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.bbs_minema.toggle_depth",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_UNKNOWN, // unbound by default, set it in Controls
-                "key.categories.bbs_minema"
-        ));
-
-        this.toggleSyncKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.bbs_minema.toggle_sync",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_UNKNOWN, // unbound by default, set it in Controls
-                "key.categories.bbs_minema"
-        ));
-
-        this.toggleAudioKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.bbs_minema.toggle_audio",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_UNKNOWN, // unbound by default, set it in Controls
-                "key.categories.bbs_minema"
-        ));
-
-        this.toggleAudioMuxKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.bbs_minema.toggle_audio_mux",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_UNKNOWN, // unbound by default, set it in Controls
-                "key.categories.bbs_minema"
-        ));
 
         this.recordKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.bbs_minema.toggle_raw_capture",
@@ -96,6 +73,15 @@ public class BBSMinema implements ClientModInitializer
                 GLFW.GLFW_KEY_F4, // matches Minema 1.12.2's default -- BBS mod's own F4 is disabled, see DisableBBSVideoKeyMixin
                 "key.categories.bbs_minema"
         ));
+
+        this.minemaSettingsKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.bbs_minema.open_settings",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_UNKNOWN, // unbound by default -- Shift+F4 (see onClientTick) is the real default trigger; vanilla keybindings can't natively represent a modifier+key combo as a single bindable default
+                "key.categories.bbs_minema"
+        ));
+
+        MinemaSettingsButton.register();
 
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
         WorldRenderEvents.LAST.register(this::onWorldRenderLast);
@@ -111,6 +97,20 @@ public class BBSMinema implements ClientModInitializer
         });
     }
 
+    private void openMinemaSettings()
+    {
+        MinecraftClient client = MinecraftClient.getInstance();
+        Screen current = client.currentScreen;
+
+        // Already open -- don't stack a second copy on top of itself.
+        if (current instanceof MinemaSettingsScreen)
+        {
+            return;
+        }
+
+        client.setScreen(new MinemaSettingsScreen(current));
+    }
+
     /** True while either BBS-Minema's own F4 capture or BBS mod's own VideoRecorder (triggered some other way) is recording. */
     private boolean isAnyRecording()
     {
@@ -119,57 +119,18 @@ public class BBSMinema implements ClientModInitializer
 
     private void onClientTick(MinecraftClient client)
     {
-        if (this.toggleKey.wasPressed())
+        if (this.minemaSettingsKey.wasPressed())
         {
-            this.config.toggleCaptureDepth();
-
-            if (client.player != null)
-            {
-                String state = this.config.captureDepth ? "ON" : "OFF";
-
-                client.player.sendMessage(Text.literal("BBS Minema depth pass: " + state), true);
-            }
-        }
-
-        if (this.toggleSyncKey.wasPressed())
-        {
-            this.config.toggleSyncEngine();
-
-            if (client.player != null)
-            {
-                String state = this.config.syncEngine ? "ON" : "OFF";
-
-                client.player.sendMessage(Text.literal("BBS Minema tick sync: " + state), true);
-            }
-        }
-
-        if (this.toggleAudioKey.wasPressed())
-        {
-            this.config.toggleRecordGameAudio();
-
-            if (client.player != null)
-            {
-                String state = this.config.recordGameAudio ? "ON" : "OFF";
-
-                client.player.sendMessage(Text.literal("BBS Minema game audio: " + state), true);
-            }
-        }
-
-        if (this.toggleAudioMuxKey.wasPressed())
-        {
-            this.config.toggleGenerateWavFile();
-
-            if (client.player != null)
-            {
-                String state = this.config.generateWavFile ? "ON" : "OFF";
-
-                client.player.sendMessage(Text.literal("BBS Minema generate .wav file: " + state), true);
-            }
+            this.openMinemaSettings();
         }
 
         if (this.recordKey.wasPressed())
         {
-            if (RawCaptureModule.INSTANCE.isRecording())
+            if (Screen.hasShiftDown())
+            {
+                this.openMinemaSettings();
+            }
+            else if (RawCaptureModule.INSTANCE.isRecording())
             {
                 RawCaptureModule.INSTANCE.stop();
 

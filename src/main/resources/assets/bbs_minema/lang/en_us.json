@@ -1,8 +1,5 @@
 {
   "key.categories.bbs_minema": "BBS Minema",
-  "key.bbs_minema.toggle_depth": "Toggle depth pass recording",
-  "key.bbs_minema.toggle_sync": "Toggle tick synchronization",
-  "key.bbs_minema.toggle_audio": "Toggle in-game audio recording",
-  "key.bbs_minema.toggle_audio_mux": "Toggle generate .wav audio file",
-  "key.bbs_minema.toggle_raw_capture": "Record video (F4, full screen)"
+  "key.bbs_minema.toggle_raw_capture": "Record Video",
+  "key.bbs_minema.open_settings": "Minema Settings"
 }

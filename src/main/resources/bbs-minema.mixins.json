@@ -3,12 +3,12 @@
   "package": "Glaxium.Minema.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "UIVideoSettingsOverlayPanelMixin",
     "MinecraftClientRenderSyncMixin",
     "MinecraftServerTickSyncMixin",
     "SoundEngineMixin",
     "MinecraftClientRawCaptureMixin",
     "DisableBBSVideoKeyMixin",
+    "HideBBSVideoKeybindMixin",
     "MinemaRenderTickCounterMixin"
   ],
   "injectors": {
