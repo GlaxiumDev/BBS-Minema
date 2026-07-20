@@ -1,0 +1,5 @@
+accessWidener v2 named
+
+# Nothing needed yet -- everything this addon uses (Framebuffer#getDepthAttachment,
+# BBSModClient#getVideoRecorder, BBSRendering's public statics) is already public.
+# Add widener entries here if you end up needing something BBS mod keeps private.
