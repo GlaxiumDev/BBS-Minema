@@ -1,5 +1,6 @@
 package Glaxium.Minema.mixin;
 
+import Glaxium.Minema.MinemaConfig;
 import Glaxium.Minema.RawCaptureModule;
 import mchorse.bbs_mod.BBSModClient;
 import mchorse.bbs_mod.client.BBSRendering;
@@ -57,8 +58,12 @@ public class MinemaRenderTickCounterMixin
         }
 
         float frameRate = (float) BBSRendering.getVideoFrameRate();
+        float engineSpeed = (float) MinemaConfig.INSTANCE.engineSpeed;
 
-        this.lastFrameDuration = 20F / frameRate;
+        // Engine speed multiplies how many world ticks each captured frame accounts for --
+        // >1 makes the world simulate faster than the video plays back (timelapse), <1 slower
+        // (slow motion). See MinemaConfig#engineSpeed.
+        this.lastFrameDuration = (20F / frameRate) * engineSpeed;
         this.prevTimeMillis = timeMillis;
         this.tickDelta += this.lastFrameDuration;
 

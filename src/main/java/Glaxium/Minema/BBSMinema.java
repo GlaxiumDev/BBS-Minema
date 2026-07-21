@@ -1,20 +1,9 @@
 package Glaxium.Minema;
 
-import Glaxium.Minema.keys.MinemaKeys;
+import Glaxium.Minema.ui.MinemaQuickCaptureScreen;
 import Glaxium.Minema.ui.MinemaSettingsButton;
-import Glaxium.Minema.ui.MinemaSettingsOverlayPanel;
-import mchorse.bbs_mod.events.Subscribe;
-import mchorse.bbs_mod.events.register.RegisterDashboardPanelsEvent;
-import mchorse.bbs_mod.BBSMod;
 import mchorse.bbs_mod.BBSModClient;
 import mchorse.bbs_mod.client.BBSRendering;
-import mchorse.bbs_mod.ui.dashboard.UIDashboard;
-import mchorse.bbs_mod.ui.film.replays.overlays.UIReplaysOverlayPanel;
-import mchorse.bbs_mod.ui.framework.UIBaseMenu;
-import mchorse.bbs_mod.ui.framework.elements.overlay.UIOverlay;
-import mchorse.bbs_mod.ui.framework.elements.overlay.UIOverlayPanel;
-import mchorse.bbs_mod.ui.utility.UIUtilityOverlayPanel;
-import mchorse.bbs_mod.settings.ui.UIVideoSettingsOverlayPanel;
 import mchorse.bbs_mod.utils.StringUtils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -42,11 +31,17 @@ import java.io.File;
  * pacing (MinemaRenderTickCounterMixin) so output speed doesn't depend on
  * BBS mod's recorder being active at all.
  *
- * The depth pass, in-game audio, and tick sync features no longer have
- * their own keybinds (removed -- pressing J inside BBS's dashboard, or the
- * "Minema Settings" button in BBS's own video panel, is the only way to
- * flip them now, see MinemaSettingsOverlayPanel / #onRegisterDashboardPanels)
- * but still key off {@link #isAnyRecording()} -- true
+ * The depth pass, in-game audio, tick sync, custom resolution, and engine
+ * speed settings are all reachable from two places that both read/write
+ * the exact same {@link MinemaConfig#INSTANCE}, so they're always in sync
+ * with each other: BBS's own "Minema Settings" button inside its video
+ * settings panel (opens {@link Glaxium.Minema.ui.MinemaSettingsOverlayPanel},
+ * built on BBS's UI framework), and Shift+F4 out in the world (opens
+ * {@link Glaxium.Minema.ui.MinemaQuickCaptureScreen}, a standalone vanilla
+ * {@code Screen} outside BBS's UI entirely, matching how the old standalone
+ * BBS-Minema mod's own UI worked). The old J keybind has been removed
+ * completely -- Shift+F4 is its replacement out in the world.
+ * These settings still key off {@link #isAnyRecording()} -- true
  * either while BBS-Minema's own F4 recording is running, or while BBS
  * mod's own VideoRecorder happens to be active some other way (e.g. the
  * film editor's "export video" button, which doesn't go through F4 at all
@@ -67,8 +62,16 @@ public class BBSMinema implements ClientModInitializer
     /** Set the moment we open the WAV file, used to find BBS mod's own output video for muxing afterwards -- see GameAudioRecorder#muxIntoVideo. */
     private long audioRecordingStartedAt;
 
-    /** BBS-Minema's own F4 -- starts/stops RawCaptureModule directly. Replaces BBS mod's own F4, which DisableBBSVideoKeyMixin permanently disables. */
+    /**
+     * BBS-Minema's own F4 -- kept registered mainly so it still shows up as
+     * "Toggle Recording" in the Controls menu, rebindable like any other
+     * key. IMPORTANT: actual press detection does NOT use this
+     * KeyBinding's own wasPressed() -- see #onClientTick for why.
+     */
     private KeyBinding recordKey;
+
+    /** Edge-detection state for the raw F4 polling in #onClientTick -- see there for why this doesn't use KeyBinding#wasPressed(). */
+    private boolean f4WasDown;
 
     @Override
     public void onInitializeClient()
@@ -83,12 +86,6 @@ public class BBSMinema implements ClientModInitializer
         ));
 
         MinemaSettingsButton.register();
-
-        // "Minema Settings" now lives entirely inside BBS's own UI (press J
-        // in the dashboard, same mechanism as F6/Utility panel) instead of
-        // a vanilla Minecraft keybind -- see #onRegisterDashboardPanels.
-        MinemaKeys.registerInKeybindsTab();
-        BBSMod.events.register(this);
 
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
         WorldRenderEvents.LAST.register(this::onWorldRenderLast);
@@ -110,11 +107,60 @@ public class BBSMinema implements ClientModInitializer
         return RawCaptureModule.INSTANCE.isRecording() || BBSModClient.getVideoRecorder().isRecording();
     }
 
+    private static boolean isKeyDown(long handle, int glfwKey)
+    {
+        return InputUtil.isKeyPressed(handle, glfwKey);
+    }
+
+    /** Checked at the moment F4 is pressed to decide between toggling recording (F4) and opening quick-capture settings (Shift+F4). */
+    private static boolean isShiftDown(long handle)
+    {
+        return isKeyDown(handle, GLFW.GLFW_KEY_LEFT_SHIFT) || isKeyDown(handle, GLFW.GLFW_KEY_RIGHT_SHIFT);
+    }
+
+    /**
+     * Deliberately does NOT use {@code this.recordKey.wasPressed()}.
+     *
+     * BBS mod registers its OWN "Record Video" keybinding defaulted to F4
+     * too (see BBSModClient#keyRecordVideo -- createKey("record_video",
+     * GLFW.GLFW_KEY_F4)). DisableBBSVideoKeyMixin stops that keybinding's
+     * own wasPressed() from doing anything, and HideBBSVideoKeybindMixin
+     * hides it from the Controls menu -- but neither of those change the
+     * fact that vanilla's KeyBinding class tracks "which KeyBinding
+     * currently owns physical key F4" in a single shared static map
+     * (KEY_TO_BINDINGS), and only ONE KeyBinding object can own a given
+     * physical key in that map at a time. Whichever of the two F4
+     * KeyBinding objects (ours or BBS mod's) gets constructed/registered
+     * LAST during mod init ends up owning F4 in that map -- and that
+     * ordering isn't guaranteed to be the same between runs (Fabric Loader
+     * doesn't promise a fixed initialization order across mods), which is
+     * exactly the "worked once, then stopped after restart" bug: on some
+     * launches our own recordKey loses the race and BBS's dead (but still
+     * key-mapped) KeyBinding silently eats every F4 press instead.
+     *
+     * Polling the physical key directly via GLFW every tick sidesteps that
+     * shared map entirely -- this doesn't care which KeyBinding object
+     * "owns" F4, it just asks the window "is F4 physically down right
+     * now", which is unaffected by BBS mod's colliding keybinding.
+     */
     private void onClientTick(MinecraftClient client)
     {
-        if (this.recordKey.wasPressed())
+        long handle = client.getWindow().getHandle();
+        boolean f4Down = isKeyDown(handle, GLFW.GLFW_KEY_F4);
+        boolean f4Pressed = f4Down && !this.f4WasDown;
+
+        this.f4WasDown = f4Down;
+
+        if (f4Pressed)
         {
-            if (RawCaptureModule.INSTANCE.isRecording())
+            if (isShiftDown(handle))
+            {
+                // Shift+F4 -- open the quick-capture screen instead of
+                // toggling recording. Consumes the same keypress;
+                // recording itself is untouched by this branch.
+                client.setScreen(new MinemaQuickCaptureScreen(client.currentScreen));
+            }
+            else if (RawCaptureModule.INSTANCE.isRecording())
             {
                 RawCaptureModule.INSTANCE.stop();
 
@@ -260,68 +306,5 @@ public class BBSMinema implements ClientModInitializer
         // Raw (full screen, GUI included) capture's own start/stop is now
         // driven directly by the F4 keypress in onClientTick, not an edge
         // -- see below.
-    }
-
-    /**
-     * Registers the J keybind ({@link MinemaKeys#OPEN_SETTINGS}) on the
-     * dashboard's overlay layer, the same layer + mechanism BBS mod's own
-     * F6/"Utility panel" keybind uses (see {@code UIDashboard}'s
-     * constructor, {@code Keys.OPEN_UTILITY_PANEL}). This only ever fires
-     * while BBS's own UIScreen has keyboard focus -- pressing J out in the
-     * world, or while typing in a text field anywhere in BBS UI, does
-     * nothing.
-     *
-     * <p>J opens {@link MinemaSettingsOverlayPanel} unless another "busy"
-     * overlay is already open on top of the dashboard -- Edit Settings
-     * (UIVideoSettingsOverlayPanel), the Replay panel
-     * (UIReplaysOverlayPanel), or the Utility panel
-     * (UIUtilityOverlayPanel). BBS's own Settings/Keybinds overlay
-     * (UISettingsOverlayPanel) is the one deliberate exception: J still
-     * opens Minema Settings on top of it. No overlay open at all is also
-     * fine. This exactly mirrors how F6 itself only checks
-     * {@code UIOverlay.has(this.context)} before opening, just with one
-     * carve-out for the Settings panel specifically.
-     */
-    @Subscribe
-    public void onRegisterDashboardPanels(RegisterDashboardPanelsEvent event)
-    {
-        UIDashboard dashboard = event.dashboard;
-
-        dashboard.overlay.keys().register(MinemaKeys.OPEN_SETTINGS, () ->
-        {
-            if (isBlockedByBusyOverlay(dashboard))
-            {
-                return;
-            }
-
-            UIOverlay.addOverlay(dashboard.context, new MinemaSettingsOverlayPanel(), 240, 200);
-        });
-    }
-
-    private static boolean isBlockedByBusyOverlay(UIDashboard dashboard)
-    {
-        UIBaseMenu menu = dashboard;
-
-        for (UIOverlayPanel overlay : menu.getRoot().getChildren(UIOverlayPanel.class))
-        {
-            if (overlay instanceof MinemaSettingsOverlayPanel)
-            {
-                // Already open -- don't stack a second copy on itself.
-                return true;
-            }
-
-            if (overlay instanceof UIVideoSettingsOverlayPanel
-                    || overlay instanceof UIReplaysOverlayPanel
-                    || overlay instanceof UIUtilityOverlayPanel)
-            {
-                return true;
-            }
-
-            // UISettingsOverlayPanel is deliberately NOT checked here --
-            // it's the one overlay Minema Settings is still allowed to
-            // open on top of.
-        }
-
-        return false;
     }
 }

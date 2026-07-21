@@ -72,6 +72,44 @@ public class MinemaConfig
      */
     public boolean rawCaptureMode = false;
 
+    /**
+     * Off by default. When on (and only while the window is actually in
+     * true fullscreen -- see RawCaptureModule/WindowMixin), F4 capture
+     * renders into an off-screen buffer sized to BBS mod's own configured
+     * {@code BBSSettings.videoSettings.width}/{@code height} instead of
+     * reading the physical window's live framebuffer size. This is what
+     * makes 4K (or any other resolution that doesn't match your monitor)
+     * capture possible without stretching -- world, HUD, inventory, and
+     * every BBS/other-mod overlay all render at the target size, they're
+     * not just upscaled afterwards. Ignored in windowed mode, since a
+     * windowed game can be resized by the OS/user mid-recording, which
+     * would desync the spoofed size from the real window and corrupt the
+     * screen.
+     *
+     * <p>Deliberately NOT a separate "enable custom resolution" on/off
+     * switch with its own width/height fields -- it's a choice between two
+     * capture modes: true (custom resolution, off-screen render at BBS's
+     * configured width/height, fullscreen-only), or false (native, capture
+     * the screen exactly as it already is, works windowed or fullscreen,
+     * original behaviour). Width/height themselves live in BBS's own
+     * settings, not here, so editing them anywhere (BBS's own "Edit
+     * settings" panel, or the Width/Height fields in Minema's own UI) is
+     * genuinely the same value everywhere, not a copy that needs syncing.
+     */
+    public boolean customResolution = false;
+
+    /**
+     * Multiplier applied to how fast the world simulation advances relative
+     * to each captured frame (same idea as Minema 1.12.2's "Engine Speed").
+     * 1.0 is normal speed. Values above 1 make the world tick faster than
+     * the recorded video plays back (timelapse); values below 1 slow the
+     * world down relative to the video (slow motion). Applied in
+     * MinemaRenderTickCounterMixin, alongside the existing fixed-timestep
+     * frame pacing -- doesn't affect windowed/live gameplay at all, only
+     * how many ticks a captured frame accounts for.
+     */
+    public double engineSpeed = 1.0;
+
     public void load()
     {
         if (!Files.exists(PATH))
@@ -105,6 +143,12 @@ public class MinemaConfig
             this.rawCaptureMode = Boolean.parseBoolean(
                     props.getProperty("rawCaptureMode", String.valueOf(this.rawCaptureMode))
             );
+            this.customResolution = Boolean.parseBoolean(
+                    props.getProperty("customResolution", String.valueOf(this.customResolution))
+            );
+            this.engineSpeed = Double.parseDouble(
+                    props.getProperty("engineSpeed", String.valueOf(this.engineSpeed))
+            );
         }
         catch (IOException | NumberFormatException e)
         {
@@ -122,6 +166,8 @@ public class MinemaConfig
         props.setProperty("recordGameAudio", String.valueOf(this.recordGameAudio));
         props.setProperty("generateWavFile", String.valueOf(this.generateWavFile));
         props.setProperty("rawCaptureMode", String.valueOf(this.rawCaptureMode));
+        props.setProperty("customResolution", String.valueOf(this.customResolution));
+        props.setProperty("engineSpeed", String.valueOf(this.engineSpeed));
 
         try
         {
@@ -165,6 +211,23 @@ public class MinemaConfig
     public void toggleRawCaptureMode()
     {
         this.rawCaptureMode = !this.rawCaptureMode;
+        this.save();
+    }
+
+    public void toggleCustomResolution()
+    {
+        this.customResolution = !this.customResolution;
+        this.save();
+    }
+
+    public void setEngineSpeed(double speed)
+    {
+        if (!Double.isFinite(speed) || speed <= 0)
+        {
+            speed = 1.0;
+        }
+
+        this.engineSpeed = Math.max(0.01, Math.min(100.0, speed));
         this.save();
     }
 }

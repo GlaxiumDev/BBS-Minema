@@ -9,7 +9,8 @@
     "MinecraftClientRawCaptureMixin",
     "DisableBBSVideoKeyMixin",
     "HideBBSVideoKeybindMixin",
-    "MinemaRenderTickCounterMixin"
+    "MinemaRenderTickCounterMixin",
+    "WindowMixin"
   ],
   "injectors": {
     "defaultRequire": 1

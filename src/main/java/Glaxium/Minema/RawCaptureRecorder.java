@@ -53,17 +53,36 @@ public class RawCaptureRecorder
     private int[] pbos;
     private int pboIndex;
 
+    /**
+     * The off-screen capture texture id to read from instead of FBO 0, or 0
+     * to mean "read the real screen backbuffer" (original behaviour). Set
+     * once at {@link #startRecording(int, int, int)} time by
+     * RawCaptureModule.
+     */
+    private int readTextureId;
+
+    /** Small dedicated FBO used only to attach {@link #readTextureId} for glReadPixels -- we don't have direct access to the off-screen Framebuffer's own internal FBO id from here. */
+    private int readFbo;
+
     public boolean isRecording()
     {
         return this.recording;
     }
 
-    /**
-     * width/height should be the resolution you've already resized the
-     * window to (see RawCaptureModule) -- BBS mod's own configured Frame
-     * Resolution, not necessarily whatever the monitor happens to be.
-     */
+    /** Backwards-compatible overload -- always reads FBO 0 (the real screen), same as the original behaviour. */
     public void startRecording(int width, int height)
+    {
+        this.startRecording(width, height, 0);
+    }
+
+    /**
+     * width/height are the resolution actually being captured this run --
+     * either the live window size, or (when {@code colorTextureId != 0})
+     * the custom off-screen capture resolution. colorTextureId is the
+     * off-screen capture framebuffer's color attachment to read from
+     * instead of the real screen; pass 0 to read FBO 0 as before.
+     */
+    public void startRecording(int width, int height, int colorTextureId)
     {
         if (this.recording)
         {
@@ -73,6 +92,21 @@ public class RawCaptureRecorder
         this.counter = 0;
         this.width = width;
         this.height = height;
+        this.readTextureId = colorTextureId;
+
+        if (colorTextureId != 0)
+        {
+            this.readFbo = GL30.glGenFramebuffers();
+
+            GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, this.readFbo);
+            GL30.glFramebufferTexture2D(GL30.GL_READ_FRAMEBUFFER, GL30.GL_COLOR_ATTACHMENT0,
+                    GL30.GL_TEXTURE_2D, colorTextureId, 0);
+            GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, 0);
+        }
+        else
+        {
+            this.readFbo = 0;
+        }
 
         int rawSize = width * height * 3;
 
@@ -169,6 +203,14 @@ public class RawCaptureRecorder
 
         this.pbos = null;
 
+        if (this.readFbo != 0)
+        {
+            GL30.glDeleteFramebuffers(this.readFbo);
+            this.readFbo = 0;
+        }
+
+        this.readTextureId = 0;
+
         if (this.outBuffer != null)
         {
             MemoryUtil.memFree(this.outBuffer);
@@ -220,6 +262,13 @@ public class RawCaptureRecorder
      * MinecraftClientRawCaptureMixin, TAIL of render()), Minecraft's own
      * final blit-to-screen has already happened regardless of what any mod
      * did with intermediate buffers earlier in the frame.
+     *
+     * <p>When a custom-resolution capture is active ({@link #readTextureId}
+     * != 0), reads from {@link #readFbo} (a small FBO with that off-screen
+     * texture attached) instead of FBO 0 -- the real screen backbuffer is
+     * the wrong size/content entirely in that mode, since WindowMixin has
+     * redirected what actually gets presented on-screen to a scaled
+     * preview blit, not the full-resolution capture itself.
      */
     public void recordFrame()
     {
@@ -232,9 +281,10 @@ public class RawCaptureRecorder
         {
             int pbo = this.pboIndex;
             int nextPbo = (this.pboIndex + 1) % this.pbos.length;
+            int source = this.readTextureId != 0 ? this.readFbo : 0;
 
             GL30.glPixelStorei(GL30.GL_PACK_ALIGNMENT, 1);
-            GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, 0);
+            GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, source);
             GL30.glBindBuffer(GL30.GL_PIXEL_PACK_BUFFER, this.pbos[pbo]);
             GL30.glReadPixels(0, 0, this.width, this.height, GL30.GL_BGR, GL30.GL_UNSIGNED_BYTE, 0);
 
